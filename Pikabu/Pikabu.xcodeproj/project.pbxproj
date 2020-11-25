@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,6 +11,15 @@
 		A21A8E38256F027400D0F13C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A8E37256F027400D0F13C /* ViewController.swift */; };
 		A21A8E3D256F027800D0F13C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A21A8E3C256F027800D0F13C /* Assets.xcassets */; };
 		A21A8E40256F027800D0F13C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A21A8E3E256F027800D0F13C /* LaunchScreen.storyboard */; };
+		A21A8E55256F075B00D0F13C /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A8E54256F075B00D0F13C /* Post.swift */; };
+		A21A8E59256F099E00D0F13C /* NetworkHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A8E58256F099E00D0F13C /* NetworkHelpers.swift */; };
+		A21A8E5C256F0E1100D0F13C /* URLComponentsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A8E5B256F0E1100D0F13C /* URLComponentsService.swift */; };
+		A21A8E62256F0FAB00D0F13C /* URLServise.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A8E61256F0FAB00D0F13C /* URLServise.swift */; };
+		A21A8E65256F117200D0F13C /* RequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A8E64256F117200D0F13C /* RequestService.swift */; };
+		A21A8E68256F11E200D0F13C /* DataTaskService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A8E67256F11E200D0F13C /* DataTaskService.swift */; };
+		A21A8E6B256F126000D0F13C /* BackendError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A8E6A256F126000D0F13C /* BackendError.swift */; };
+		A21A8E6E256F171300D0F13C /* GETService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A8E6D256F171300D0F13C /* GETService.swift */; };
+		A21A8E71256F191200D0F13C /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A8E70256F191200D0F13C /* NetworkService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +29,15 @@
 		A21A8E3C256F027800D0F13C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A21A8E3F256F027800D0F13C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A21A8E41256F027800D0F13C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A21A8E54256F075B00D0F13C /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		A21A8E58256F099E00D0F13C /* NetworkHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHelpers.swift; sourceTree = "<group>"; };
+		A21A8E5B256F0E1100D0F13C /* URLComponentsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLComponentsService.swift; sourceTree = "<group>"; };
+		A21A8E61256F0FAB00D0F13C /* URLServise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLServise.swift; sourceTree = "<group>"; };
+		A21A8E64256F117200D0F13C /* RequestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestService.swift; sourceTree = "<group>"; };
+		A21A8E67256F11E200D0F13C /* DataTaskService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTaskService.swift; sourceTree = "<group>"; };
+		A21A8E6A256F126000D0F13C /* BackendError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendError.swift; sourceTree = "<group>"; };
+		A21A8E6D256F171300D0F13C /* GETService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GETService.swift; sourceTree = "<group>"; };
+		A21A8E70256F191200D0F13C /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,13 +70,62 @@
 		A21A8E32256F027400D0F13C /* Pikabu */ = {
 			isa = PBXGroup;
 			children = (
+				A21A8E4B256F051400D0F13C /* Helpers */,
 				A21A8E33256F027400D0F13C /* AppDelegate.swift */,
 				A21A8E37256F027400D0F13C /* ViewController.swift */,
+				A21A8E5F256F0E4000D0F13C /* Networking */,
+				A21A8E53256F074800D0F13C /* Model */,
+				A21A8E4C256F052E00D0F13C /* Resources */,
+				A21A8E4D256F054F00D0F13C /* SupportingFiles */,
+			);
+			path = Pikabu;
+			sourceTree = "<group>";
+		};
+		A21A8E4B256F051400D0F13C /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		A21A8E4C256F052E00D0F13C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
 				A21A8E3C256F027800D0F13C /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		A21A8E4D256F054F00D0F13C /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
 				A21A8E3E256F027800D0F13C /* LaunchScreen.storyboard */,
 				A21A8E41256F027800D0F13C /* Info.plist */,
 			);
-			path = Pikabu;
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		A21A8E53256F074800D0F13C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A21A8E54256F075B00D0F13C /* Post.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		A21A8E5F256F0E4000D0F13C /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				A21A8E70256F191200D0F13C /* NetworkService.swift */,
+				A21A8E5B256F0E1100D0F13C /* URLComponentsService.swift */,
+				A21A8E61256F0FAB00D0F13C /* URLServise.swift */,
+				A21A8E64256F117200D0F13C /* RequestService.swift */,
+				A21A8E67256F11E200D0F13C /* DataTaskService.swift */,
+				A21A8E6D256F171300D0F13C /* GETService.swift */,
+				A21A8E58256F099E00D0F13C /* NetworkHelpers.swift */,
+				A21A8E6A256F126000D0F13C /* BackendError.swift */,
+			);
+			name = Networking;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -96,7 +163,7 @@
 				};
 			};
 			buildConfigurationList = A21A8E2B256F027400D0F13C /* Build configuration list for PBXProject "Pikabu" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -130,7 +197,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A21A8E71256F191200D0F13C /* NetworkService.swift in Sources */,
+				A21A8E6E256F171300D0F13C /* GETService.swift in Sources */,
+				A21A8E6B256F126000D0F13C /* BackendError.swift in Sources */,
+				A21A8E65256F117200D0F13C /* RequestService.swift in Sources */,
+				A21A8E55256F075B00D0F13C /* Post.swift in Sources */,
+				A21A8E62256F0FAB00D0F13C /* URLServise.swift in Sources */,
 				A21A8E38256F027400D0F13C /* ViewController.swift in Sources */,
+				A21A8E59256F099E00D0F13C /* NetworkHelpers.swift in Sources */,
+				A21A8E5C256F0E1100D0F13C /* URLComponentsService.swift in Sources */,
+				A21A8E68256F11E200D0F13C /* DataTaskService.swift in Sources */,
 				A21A8E34256F027400D0F13C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -200,7 +276,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -255,7 +331,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -272,7 +348,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GY47Z2W3K9;
-				INFOPLIST_FILE = Pikabu/Info.plist;
+				INFOPLIST_FILE = Pikabu/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -292,7 +368,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GY47Z2W3K9;
-				INFOPLIST_FILE = Pikabu/Info.plist;
+				INFOPLIST_FILE = Pikabu/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
