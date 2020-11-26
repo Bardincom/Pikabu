@@ -70,11 +70,11 @@
 		A21A8E32256F027400D0F13C /* Pikabu */ = {
 			isa = PBXGroup;
 			children = (
-				A21A8E4B256F051400D0F13C /* Helpers */,
 				A21A8E33256F027400D0F13C /* AppDelegate.swift */,
 				A21A8E37256F027400D0F13C /* ViewController.swift */,
 				A21A8E5F256F0E4000D0F13C /* Networking */,
 				A21A8E53256F074800D0F13C /* Model */,
+				A21A8E4B256F051400D0F13C /* Helpers */,
 				A21A8E4C256F052E00D0F13C /* Resources */,
 				A21A8E4D256F054F00D0F13C /* SupportingFiles */,
 			);
@@ -84,6 +84,7 @@
 		A21A8E4B256F051400D0F13C /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				A21A8E58256F099E00D0F13C /* NetworkHelpers.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -122,7 +123,6 @@
 				A21A8E64256F117200D0F13C /* RequestService.swift */,
 				A21A8E67256F11E200D0F13C /* DataTaskService.swift */,
 				A21A8E6D256F171300D0F13C /* GETService.swift */,
-				A21A8E58256F099E00D0F13C /* NetworkHelpers.swift */,
 				A21A8E6A256F126000D0F13C /* BackendError.swift */,
 			);
 			name = Networking;
