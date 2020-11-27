@@ -24,10 +24,19 @@ private extension AppDelegate {
     func assembly() {
         window = UIWindow(frame: UIScreen.main.bounds)
 
-        let rootViewController = ViewController()
+        let feedViewController = FeedViewController()
+//        feedViewController.tabBarItem.image = Asset.IconAssets.feed.image
+        let feedNavigationController = UINavigationController(rootViewController: feedViewController)
+
+
+
+        let tabBarController = UITabBarController()
+//        tabBarController.tabBar.backgroundColor = Asset.ColorAssets.viewBackground.color
+        tabBarController.setViewControllers([feedNavigationController], animated: false)
+
 //        rootViewController.title = Title.weatherViewControllerTitle
-        let navigationController = UINavigationController(rootViewController: rootViewController)
-        window?.rootViewController = navigationController
+
+        window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
     }
 }

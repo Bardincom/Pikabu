@@ -20,6 +20,15 @@
 		A21A8E6B256F126000D0F13C /* BackendError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A8E6A256F126000D0F13C /* BackendError.swift */; };
 		A21A8E6E256F171300D0F13C /* GETService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A8E6D256F171300D0F13C /* GETService.swift */; };
 		A21A8E71256F191200D0F13C /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A8E70256F191200D0F13C /* NetworkService.swift */; };
+		A21A8E8B256FA9C300D0F13C /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A8E8A256FA9C300D0F13C /* UITableView+Extension.swift */; };
+		A21A8E91256FAE9000D0F13C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A8E90256FAE9000D0F13C /* Constants.swift */; };
+		A2A862EE256FEC0200A9FC85 /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A862ED256FEC0200A9FC85 /* UICollectionView+Extension.swift */; };
+		A2D5072A257035030010C1DF /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D50728257035030010C1DF /* FeedViewController.swift */; };
+		A2D5072B257035030010C1DF /* FeedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2D50729257035030010C1DF /* FeedViewController.xib */; };
+		A2D5072F257035200010C1DF /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D5072D257035200010C1DF /* FeedTableViewCell.swift */; };
+		A2D50730257035200010C1DF /* FeedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2D5072E257035200010C1DF /* FeedTableViewCell.xib */; };
+		A2D50734257043FE0010C1DF /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D50732257043FE0010C1DF /* TableViewCell.swift */; };
+		A2D50735257043FE0010C1DF /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2D50733257043FE0010C1DF /* TableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +47,15 @@
 		A21A8E6A256F126000D0F13C /* BackendError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendError.swift; sourceTree = "<group>"; };
 		A21A8E6D256F171300D0F13C /* GETService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GETService.swift; sourceTree = "<group>"; };
 		A21A8E70256F191200D0F13C /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		A21A8E8A256FA9C300D0F13C /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
+		A21A8E90256FAE9000D0F13C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		A2A862ED256FEC0200A9FC85 /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
+		A2D50728257035030010C1DF /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
+		A2D50729257035030010C1DF /* FeedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedViewController.xib; sourceTree = "<group>"; };
+		A2D5072D257035200010C1DF /* FeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
+		A2D5072E257035200010C1DF /* FeedTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedTableViewCell.xib; sourceTree = "<group>"; };
+		A2D50732257043FE0010C1DF /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		A2D50733257043FE0010C1DF /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +92,7 @@
 				A21A8E37256F027400D0F13C /* ViewController.swift */,
 				A21A8E5F256F0E4000D0F13C /* Networking */,
 				A21A8E53256F074800D0F13C /* Model */,
+				A21A8E79256FA90B00D0F13C /* View */,
 				A21A8E4B256F051400D0F13C /* Helpers */,
 				A21A8E4C256F052E00D0F13C /* Resources */,
 				A21A8E4D256F054F00D0F13C /* SupportingFiles */,
@@ -85,6 +104,8 @@
 			isa = PBXGroup;
 			children = (
 				A21A8E58256F099E00D0F13C /* NetworkHelpers.swift */,
+				A21A8E8E256FA9CD00D0F13C /* Extension */,
+				A21A8E90256FAE9000D0F13C /* Constants.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -126,6 +147,52 @@
 				A21A8E6A256F126000D0F13C /* BackendError.swift */,
 			);
 			name = Networking;
+			sourceTree = "<group>";
+		};
+		A21A8E79256FA90B00D0F13C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A21A8E87256FA98300D0F13C /* Feed */,
+				A21A8E89256FA99000D0F13C /* Post */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		A21A8E87256FA98300D0F13C /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+				A2A862D8256FCC8C00A9FC85 /* Cell */,
+				A2D50728257035030010C1DF /* FeedViewController.swift */,
+				A2D50729257035030010C1DF /* FeedViewController.xib */,
+			);
+			path = Feed;
+			sourceTree = "<group>";
+		};
+		A21A8E89256FA99000D0F13C /* Post */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Post;
+			sourceTree = "<group>";
+		};
+		A21A8E8E256FA9CD00D0F13C /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				A21A8E8A256FA9C300D0F13C /* UITableView+Extension.swift */,
+				A2A862ED256FEC0200A9FC85 /* UICollectionView+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		A2A862D8256FCC8C00A9FC85 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				A2D5072D257035200010C1DF /* FeedTableViewCell.swift */,
+				A2D5072E257035200010C1DF /* FeedTableViewCell.xib */,
+				A2D50732257043FE0010C1DF /* TableViewCell.swift */,
+				A2D50733257043FE0010C1DF /* TableViewCell.xib */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -186,6 +253,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				A21A8E40256F027800D0F13C /* LaunchScreen.storyboard in Resources */,
+				A2D50735257043FE0010C1DF /* TableViewCell.xib in Resources */,
+				A2D50730257035200010C1DF /* FeedTableViewCell.xib in Resources */,
+				A2D5072B257035030010C1DF /* FeedViewController.xib in Resources */,
 				A21A8E3D256F027800D0F13C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -197,15 +267,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2A862EE256FEC0200A9FC85 /* UICollectionView+Extension.swift in Sources */,
 				A21A8E71256F191200D0F13C /* NetworkService.swift in Sources */,
 				A21A8E6E256F171300D0F13C /* GETService.swift in Sources */,
 				A21A8E6B256F126000D0F13C /* BackendError.swift in Sources */,
 				A21A8E65256F117200D0F13C /* RequestService.swift in Sources */,
 				A21A8E55256F075B00D0F13C /* Post.swift in Sources */,
+				A21A8E91256FAE9000D0F13C /* Constants.swift in Sources */,
+				A2D5072A257035030010C1DF /* FeedViewController.swift in Sources */,
 				A21A8E62256F0FAB00D0F13C /* URLServise.swift in Sources */,
+				A2D5072F257035200010C1DF /* FeedTableViewCell.swift in Sources */,
 				A21A8E38256F027400D0F13C /* ViewController.swift in Sources */,
 				A21A8E59256F099E00D0F13C /* NetworkHelpers.swift in Sources */,
+				A21A8E8B256FA9C300D0F13C /* UITableView+Extension.swift in Sources */,
 				A21A8E5C256F0E1100D0F13C /* URLComponentsService.swift in Sources */,
+				A2D50734257043FE0010C1DF /* TableViewCell.swift in Sources */,
 				A21A8E68256F11E200D0F13C /* DataTaskService.swift in Sources */,
 				A21A8E34256F027400D0F13C /* AppDelegate.swift in Sources */,
 			);
