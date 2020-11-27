@@ -15,7 +15,7 @@ class TableViewCellViewModel: TableViewCellViewModelType {
     }
 
     var title: String {
-        post.title + String(post.id)
+        post.title
     }
 
     var body: String? {

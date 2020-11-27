@@ -10,6 +10,8 @@
 		A209787E25714F1900854367 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A209787D25714F1900854367 /* FeedViewModel.swift */; };
 		A20978832571573400854367 /* TableViewCellViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20978822571573400854367 /* TableViewCellViewModelType.swift */; };
 		A2097886257157DC00854367 /* TableViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2097885257157DC00854367 /* TableViewCellViewModel.swift */; };
+		A209788B257165DA00854367 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = A209788A257165DA00854367 /* Kingfisher */; };
+		A209788E25716DDA00854367 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A209788D25716DDA00854367 /* Fonts.swift */; };
 		A21A8E34256F027400D0F13C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A8E33256F027400D0F13C /* AppDelegate.swift */; };
 		A21A8E38256F027400D0F13C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21A8E37256F027400D0F13C /* ViewController.swift */; };
 		A21A8E3D256F027800D0F13C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A21A8E3C256F027800D0F13C /* Assets.xcassets */; };
@@ -36,6 +38,7 @@
 		A209787D25714F1900854367 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		A20978822571573400854367 /* TableViewCellViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellViewModelType.swift; sourceTree = "<group>"; };
 		A2097885257157DC00854367 /* TableViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellViewModel.swift; sourceTree = "<group>"; };
+		A209788D25716DDA00854367 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		A21A8E30256F027400D0F13C /* Pikabu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pikabu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A21A8E33256F027400D0F13C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A21A8E37256F027400D0F13C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -65,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A209788B257165DA00854367 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,8 +129,9 @@
 			isa = PBXGroup;
 			children = (
 				A21A8E58256F099E00D0F13C /* NetworkHelpers.swift */,
-				A21A8E8E256FA9CD00D0F13C /* Extension */,
 				A21A8E90256FAE9000D0F13C /* Constants.swift */,
+				A21A8E8E256FA9CD00D0F13C /* Extension */,
+				A209788D25716DDA00854367 /* Fonts.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -230,6 +235,9 @@
 			dependencies = (
 			);
 			name = Pikabu;
+			packageProductDependencies = (
+				A209788A257165DA00854367 /* Kingfisher */,
+			);
 			productName = Pikabu;
 			productReference = A21A8E30256F027400D0F13C /* Pikabu.app */;
 			productType = "com.apple.product-type.application";
@@ -257,6 +265,9 @@
 				Base,
 			);
 			mainGroup = A21A8E27256F027300D0F13C;
+			packageReferences = (
+				A2097889257165DA00854367 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			productRefGroup = A21A8E31256F027400D0F13C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -301,6 +312,7 @@
 				A21A8E8B256FA9C300D0F13C /* UITableView+Extension.swift in Sources */,
 				A21A8E5C256F0E1100D0F13C /* URLComponentsService.swift in Sources */,
 				A2D50734257043FE0010C1DF /* TableViewCell.swift in Sources */,
+				A209788E25716DDA00854367 /* Fonts.swift in Sources */,
 				A21A8E68256F11E200D0F13C /* DataTaskService.swift in Sources */,
 				A20978832571573400854367 /* TableViewCellViewModelType.swift in Sources */,
 				A21A8E34256F027400D0F13C /* AppDelegate.swift in Sources */,
@@ -499,6 +511,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A2097889257165DA00854367 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.15.8;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A209788A257165DA00854367 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A2097889257165DA00854367 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A21A8E28256F027300D0F13C /* Project object */;
 }
