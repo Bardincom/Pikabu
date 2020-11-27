@@ -15,8 +15,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemRed
 
-        networkService.getRequest().getAllPosts { [weak self] result in
-            guard let self = self else { return }
+        networkService.getRequest().getAllPosts { result in
+//            guard let self = self else { return }
             switch result {
                 case .success(let posts):
                     posts.forEach { (post) in
@@ -27,8 +27,8 @@ class ViewController: UIViewController {
             }
         }
 
-        networkService.getRequest().getPost("31") { [weak self] result in
-            guard let self = self else { return }
+        networkService.getRequest().getPost("31") {  result in
+//            guard let self = self else { return }
             switch result {
                 case .success(let post):
                     print(post.title)

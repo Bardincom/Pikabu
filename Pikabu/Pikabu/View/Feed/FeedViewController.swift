@@ -9,6 +9,7 @@ import UIKit
 
 class FeedViewController: UIViewController {
 
+    private var viewModel = FeedViewModel()
 
     @IBOutlet var feedTableView: UITableView! {
         willSet {
@@ -21,20 +22,24 @@ class FeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        viewModel.fetchAllPosts { [weak self] in
+            DispatchQueue.main.async {
+                self?.feedTableView.reloadData()
+            }
+        }
     }
 }
 
 extension FeedViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        5
+        viewModel.numberOfRows()
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(reusable: TableViewCell.self, for: indexPath)
+        let post = viewModel.cellViewModel(forIndexPath: indexPath)
+        cell.setupPost(post)
 
         return cell
     }
-
-
 }
