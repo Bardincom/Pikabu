@@ -35,9 +35,11 @@ class FeedViewController: UIViewController {
     }
 
     func displayPost() {
-        viewModel?.onAddedStorage = { post in
-            print(post?.title)
-//            postStorage.localPosts.append(post)
+        viewModel?.onAddedStorage = { [weak self] post in
+            guard let post = post else {
+                print("Неудача FeedViewController 40 строка")
+                return }
+            self?.postStorage.localPosts.append(post)
         }
     }
 }
@@ -52,7 +54,7 @@ extension FeedViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(reusable: TableViewCell.self, for: indexPath)
 
-        guard let viewModel = viewModel else { return UITableViewCell() }
+        guard let viewModel = viewModel else { return cell }
         let post = viewModel.cellViewModel(forIndexPath: indexPath)
         cell.setupPost(post)
         cell.onAddedStorage = { [weak self] post in

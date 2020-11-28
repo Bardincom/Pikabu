@@ -11,9 +11,9 @@ protocol TableViewViewModelType {
     var onAddedStorage: PostBlock? {get set}
     func numberOfRows() -> Int
     
-    func cellViewModel(forIndexPath indexPath: IndexPath) -> TableViewCellViewModelType?
+    func cellViewModel(forIndexPath indexPath: IndexPath) -> Post?
 
     func fetchAllPosts(completionHandler: @escaping EmptyBlock)
 
-    func pushPostDataLocalStorage(_ post: TableViewCellViewModelType?)
+    func pushPostDataLocalStorage(_ post: Post?)
 }

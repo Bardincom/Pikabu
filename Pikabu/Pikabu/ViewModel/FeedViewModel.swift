@@ -36,13 +36,13 @@ class FeedViewModel: TableViewViewModelType {
         }
     }
 
-    func cellViewModel(forIndexPath indexPath: IndexPath) -> TableViewCellViewModelType? {
-        let post = posts[indexPath.row]
+    func cellViewModel(forIndexPath indexPath: IndexPath) -> Post? {
+        return posts[indexPath.row]
 
-        return TableViewCellViewModel(post: post)
+//        return TableViewCellViewModel(post: post)
     }
 
-    func pushPostDataLocalStorage(_ post: TableViewCellViewModelType?) {
+    func pushPostDataLocalStorage(_ post: Post?) {
         onAddedStorage?(post)
     }
 }

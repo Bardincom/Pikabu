@@ -36,7 +36,7 @@
                                 <rect key="frame" x="0.0" y="63" width="288" height="175"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="175" id="45D-rc-pdH"/>
-                                    <constraint firstAttribute="width" constant="288" id="Phu-Es-fhx"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="288" id="Phu-Es-fhx"/>
                                 </constraints>
                             </imageView>
                         </subviews>

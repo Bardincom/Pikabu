@@ -6,30 +6,30 @@
 //
 
 import Foundation
-
-class TableViewCellViewModel: TableViewCellViewModelType {
-    // MARK: - Private property
-
-    private var post: Post
-
-    // MARK: - Computed property
-    var id: String {
-        String(post.id)
-    }
-
-    var title: String {
-        post.title
-    }
-
-    var body: String? {
-        post.body
-    }
-
-    var images: [String]? {
-        post.images
-    }
-
-    init(post: Post) {
-        self.post = post
-    }
-}
+//
+//class TableViewCellViewModel: Codable {
+//    // MARK: - Private property
+//
+//    private var post: Post
+//
+//    // MARK: - Computed property
+//    var id: String {
+//        String(post.id)
+//    }
+//
+//    var title: String {
+//        post.title
+//    }
+//
+//    var body: String? {
+//        post.body
+//    }
+//
+//    var images: [String]? {
+//        post.images
+//    }
+//
+//    init(post: Post) {
+//        self.post = post
+//    }
+//}

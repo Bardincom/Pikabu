@@ -21,7 +21,7 @@ class TableViewCell: UITableViewCell {
 
     public var onAddedStorage: PostBlock?
 
-    private var post: TableViewCellViewModelType? {
+    private var post: Post? {
         didSet {
             imagePost.isHidden = true
         }
@@ -38,7 +38,7 @@ class TableViewCell: UITableViewCell {
     }
     // MARK: - Methods
 
-    func setupPost(_ post: TableViewCellViewModelType?) {
+    func setupPost(_ post: Post?) {
         self.post = post
         titlePost.text = post?.title
         bodyPost.text = post?.body

@@ -7,9 +7,9 @@
 
 import Foundation
 
-protocol TableViewCellViewModelType: class {
-    var id: String { get }
-    var title: String { get }
-    var body: String? { get }
-    var images: [String]? { get }
-}
+//protocol TableViewCellViewModelType: AnyObject {
+//    var id: String { get }
+//    var title: String { get }
+//    var body: String? { get }
+//    var images: [String]? { get }
+//}

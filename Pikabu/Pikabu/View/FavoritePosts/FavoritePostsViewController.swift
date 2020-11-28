@@ -22,8 +22,13 @@ class FavoritePostsViewController: UIViewController {
         super.viewDidLoad()
         //TODO: Добавить Наблюдателя для определения пусто ли хранилище
 //        favoritePostsTableView.isHidden = true
-        setupViewModel()
+//        setupViewModel()
         navigationItem.title = Text.favoriteTitle
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupViewModel()
     }
 }
 
@@ -34,6 +39,10 @@ extension FavoritePostsViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeue(reusable: TableViewCell.self, for: indexPath)
+
+        guard let favoriteModelView = favoriteModelView else { return cell }
+        let post = favoriteModelView.cellViewModel(forIndexPath: indexPath)
+        cell.setupPost(post)
 
         return cell
     }

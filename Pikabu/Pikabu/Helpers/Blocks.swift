@@ -8,4 +8,4 @@
 import Foundation
 
 typealias EmptyBlock = () -> ()
-typealias PostBlock = (TableViewCellViewModelType?) -> ()
+typealias PostBlock = (Post?) -> ()
