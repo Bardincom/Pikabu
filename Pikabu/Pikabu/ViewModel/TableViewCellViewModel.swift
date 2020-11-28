@@ -8,8 +8,11 @@
 import Foundation
 
 class TableViewCellViewModel: TableViewCellViewModelType {
+    // MARK: - Private property
+
     private var post: Post
 
+    // MARK: - Computed property
     var id: String {
         String(post.id)
     }

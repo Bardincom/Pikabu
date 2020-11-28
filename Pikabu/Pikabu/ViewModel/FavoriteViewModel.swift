@@ -1,13 +1,13 @@
 //
-//  FeedViewModel.swift
+//  FavoriteViewModel.swift
 //  Pikabu
 //
-//  Created by Aleksey Bardin on 27.11.2020.
+//  Created by Aleksey Bardin on 28.11.2020.
 //
 
 import Foundation
 
-class FeedViewModel: TableViewViewModelType {
+class FavoriteViewModel: TableViewViewModelType {
 
     var onAddedStorage: PostBlock?
 
@@ -15,25 +15,17 @@ class FeedViewModel: TableViewViewModelType {
 
     private var selectedIndexPath: IndexPath?
     private var posts = [Post]()
-    private var networkService = NetworkService()
+    private var postStorage = PostStorage.shared
 
     // MARK: - Methods
-    
+
     func numberOfRows() -> Int {
         posts.count
     }
 
     func fetchAllPosts(completionHandler: @escaping EmptyBlock) {
-        networkService.getRequest().getAllPosts { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-                case .success(let posts):
-                    self.posts = posts
-                    completionHandler()
-                case .failure(let error):
-                    print(error.description)
-            }
-        }
+        posts = postStorage.localPosts
+        completionHandler()
     }
 
     func cellViewModel(forIndexPath indexPath: IndexPath) -> TableViewCellViewModelType? {
@@ -43,6 +35,6 @@ class FeedViewModel: TableViewViewModelType {
     }
 
     func pushPostDataLocalStorage(_ post: TableViewCellViewModelType?) {
-        onAddedStorage?(post)
+        
     }
 }

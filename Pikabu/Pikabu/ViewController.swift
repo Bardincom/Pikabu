@@ -16,7 +16,6 @@ class ViewController: UIViewController {
         view.backgroundColor = .systemRed
 
         networkService.getRequest().getAllPosts { result in
-//            guard let self = self else { return }
             switch result {
                 case .success(let posts):
                     posts.forEach { (post) in

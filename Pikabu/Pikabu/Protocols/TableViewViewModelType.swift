@@ -1,0 +1,19 @@
+//
+//  TableViewViewModelType.swift
+//  Pikabu
+//
+//  Created by Aleksey Bardin on 28.11.2020.
+//
+
+import Foundation
+
+protocol TableViewViewModelType {
+    var onAddedStorage: PostBlock? {get set}
+    func numberOfRows() -> Int
+    
+    func cellViewModel(forIndexPath indexPath: IndexPath) -> TableViewCellViewModelType?
+
+    func fetchAllPosts(completionHandler: @escaping EmptyBlock)
+
+    func pushPostDataLocalStorage(_ post: TableViewCellViewModelType?)
+}
