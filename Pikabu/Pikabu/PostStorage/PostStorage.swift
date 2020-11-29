@@ -24,7 +24,7 @@ public final class PostStorage {
     // MARK: - Private
 
     private init() {
-
+        userDefaults.setValue(nil, forKey: "posts")
         guard let data = userDefaults.data(forKey: "posts") else { return}
 
         do {
@@ -35,7 +35,10 @@ public final class PostStorage {
         catch {
             print("Ошибка декодирования сохранённых публикаций", error)
         }
+    }
 
+    func removePost(_ index: Int) {
+        localPosts.remove(at: index)
     }
 }
 
@@ -51,7 +54,7 @@ extension PostStorage {
             userDefaults.setValue(data, forKey: "posts")
         }
         catch {
-            print("Ошибка кодирования локации для сохранения", error)
+            print("Ошибка кодирования публикации. Сохранение невозможно.", error)
         }
     }
 }

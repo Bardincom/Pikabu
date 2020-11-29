@@ -9,6 +9,8 @@ import UIKit
 
 class FavoritePostsViewController: UIViewController {
 
+    // MARK: - Outlet
+
     @IBOutlet private var favoritePostsTableView: UITableView! {
         willSet {
             newValue.register(nibCell: TableViewCell.self)
@@ -16,7 +18,10 @@ class FavoritePostsViewController: UIViewController {
         }
     }
 
+    var postStorage = PostStorage.shared
+
     private var favoriteModelView: TableViewViewModelType?
+    private var selectedCells: Set<IndexPath> = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,10 +34,29 @@ class FavoritePostsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupViewModel()
+        removePostLocalStorage()
+    }
+
+    func removePostLocalStorage() {
+
+        favoriteModelView?.onRemovedStorage = { [weak self] post in
+
+            guard
+                let self = self,
+                let post = post,
+                let index = self.postStorage.localPosts.firstIndex(where: { (removePost) -> Bool in
+                    removePost == post
+                })
+            else {
+                return
+            }
+
+            self.postStorage.removePost(index)
+        }
     }
 }
 
-extension FavoritePostsViewController: UITableViewDataSource {
+extension FavoritePostsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         favoriteModelView?.numberOfRows() ?? 0
     }
@@ -41,10 +65,25 @@ extension FavoritePostsViewController: UITableViewDataSource {
         let cell = tableView.dequeue(reusable: TableViewCell.self, for: indexPath)
 
         guard let favoriteModelView = favoriteModelView else { return cell }
-        let post = favoriteModelView.cellViewModel(forIndexPath: indexPath)
-        cell.setupPost(post)
+        var post = favoriteModelView.cellViewModel(forIndexPath: indexPath)
 
+        cell.onRemovedStorage = { [weak self] _ in
+            print(post?.title)
+            post?.isFavorite = false
+            self?.favoriteModelView?.popPostDataLocalStorage(post)
+            self?.selectedCells.remove(indexPath)
+        }
+
+        cell.setupPost(post)
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let cell = cell as? TableViewCell else { return }
+
+        if selectedCells.contains(indexPath) {
+            cell.isFavorite = true
+        }
     }
 }
 

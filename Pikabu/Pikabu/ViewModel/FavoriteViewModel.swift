@@ -10,6 +10,7 @@ import Foundation
 class FavoriteViewModel: TableViewViewModelType {
 
     var onAddedStorage: PostBlock?
+    var onRemovedStorage: PostBlock?
 
     // MARK: - Private property
 
@@ -29,12 +30,14 @@ class FavoriteViewModel: TableViewViewModelType {
     }
 
     func cellViewModel(forIndexPath indexPath: IndexPath) -> Post? {
-        return posts[indexPath.row]
-
-//        return TableViewCellViewModel(post: post)
+        posts[indexPath.row]
     }
 
     func pushPostDataLocalStorage(_ post: Post?) {
+        onAddedStorage?(post)
+    }
 
+    func popPostDataLocalStorage(_ post: Post?) {
+        onRemovedStorage?(post)
     }
 }

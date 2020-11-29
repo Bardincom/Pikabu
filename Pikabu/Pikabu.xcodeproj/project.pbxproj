@@ -219,6 +219,7 @@
 		A21A8E79256FA90B00D0F13C /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A2A862D8256FCC8C00A9FC85 /* Cell */,
 				A21A8E87256FA98300D0F13C /* Feed */,
 				A209789A2571853E00854367 /* FavoritePosts */,
 				A21A8E89256FA99000D0F13C /* Post */,
@@ -229,7 +230,6 @@
 		A21A8E87256FA98300D0F13C /* Feed */ = {
 			isa = PBXGroup;
 			children = (
-				A2A862D8256FCC8C00A9FC85 /* Cell */,
 				A2D50728257035030010C1DF /* FeedViewController.swift */,
 				A2D50729257035030010C1DF /* FeedViewController.xib */,
 			);

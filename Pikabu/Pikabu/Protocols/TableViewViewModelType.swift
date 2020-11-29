@@ -9,6 +9,8 @@ import Foundation
 
 protocol TableViewViewModelType {
     var onAddedStorage: PostBlock? {get set}
+    var onRemovedStorage: PostBlock? {get set}
+
     func numberOfRows() -> Int
     
     func cellViewModel(forIndexPath indexPath: IndexPath) -> Post?
@@ -16,4 +18,6 @@ protocol TableViewViewModelType {
     func fetchAllPosts(completionHandler: @escaping EmptyBlock)
 
     func pushPostDataLocalStorage(_ post: Post?)
+
+    func popPostDataLocalStorage(_ post: Post?)
 }

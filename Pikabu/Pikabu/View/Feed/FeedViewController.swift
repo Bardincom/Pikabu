@@ -23,30 +23,46 @@ class FeedViewController: UIViewController {
     // MARK: - Private property
 
     private var viewModel: TableViewViewModelType?
+    private var selectedCells: Set<IndexPath> = []
 
     // MARK: - LifeCicle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = Text.feedTitle
-
         setupViewModel()
-        displayPost()
+        addPostLocalStorage()
+        removePostLocalStorage()
     }
 
-    func displayPost() {
+    func addPostLocalStorage() {
         viewModel?.onAddedStorage = { [weak self] post in
-            guard let post = post else {
-                print("Неудача FeedViewController 40 строка")
-                return }
+            guard let post = post else {return }
             self?.postStorage.localPosts.append(post)
+        }
+    }
+
+    func removePostLocalStorage() {
+        viewModel?.onRemovedStorage = { [weak self] post in
+
+            guard
+                let self = self,
+                let post = post,
+                let index = self.postStorage.localPosts.firstIndex(where: { (removePost) -> Bool in
+                    removePost == post
+                })
+            else {
+                return
+            }
+
+            self.postStorage.removePost(index)
         }
     }
 }
 
-// MARK: - UITableViewDataSource
+// MARK: - UITableViewDataSource, UITableViewDelegate
 
-extension FeedViewController: UITableViewDataSource {
+extension FeedViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel?.numberOfRows() ?? 0
     }
@@ -55,13 +71,31 @@ extension FeedViewController: UITableViewDataSource {
         let cell = tableView.dequeue(reusable: TableViewCell.self, for: indexPath)
 
         guard let viewModel = viewModel else { return cell }
-        let post = viewModel.cellViewModel(forIndexPath: indexPath)
-        cell.setupPost(post)
-        cell.onAddedStorage = { [weak self] post in
+        var post = viewModel.cellViewModel(forIndexPath: indexPath)
+
+        cell.onAddedStorage = { [weak self] _ in
+            post?.isFavorite = true
+            self?.selectedCells.insert(indexPath)
             self?.viewModel?.pushPostDataLocalStorage(post)
         }
 
+        cell.onRemovedStorage = { [weak self] _ in
+            post?.isFavorite = false
+            self?.viewModel?.popPostDataLocalStorage(post)
+            self?.selectedCells.remove(indexPath)
+        }
+
+        cell.setupPost(post)
+
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let cell = cell as? TableViewCell else { return }
+
+        if selectedCells.contains(indexPath) {
+            cell.isFavorite = true
+        }
     }
 }
 

@@ -7,5 +7,5 @@
 
 import Foundation
 
-typealias EmptyBlock = () -> ()
-typealias PostBlock = (Post?) -> ()
+typealias EmptyBlock = () -> Void
+typealias PostBlock = (Post?) -> Void

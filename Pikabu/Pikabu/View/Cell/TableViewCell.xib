@@ -78,7 +78,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="avataImage" destination="tEc-eV-MkI" id="FDZ-75-49j"/>
+                <outlet property="avatarImage" destination="tEc-eV-MkI" id="FDZ-75-49j"/>
                 <outlet property="bodyPost" destination="qkQ-GA-qcs" id="vJ4-Bj-7eh"/>
                 <outlet property="favoriteButton" destination="p5i-On-36S" id="40U-QJ-qgO"/>
                 <outlet property="imagePost" destination="vsj-fp-dcS" id="aCK-fy-loz"/>
