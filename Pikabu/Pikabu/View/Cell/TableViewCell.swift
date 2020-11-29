@@ -42,9 +42,11 @@ class TableViewCell: UITableViewCell {
     }
 
     @IBAction func pushFavoriteButton(_ sender: UIButton) {
-        if isFavorite || post?.isFavorite == true {
+        guard let post = post else { return }
+        if isFavorite || post.isFavorite == true {
             onRemovedStorage?(post)
             isFavorite = false
+            didRemoveFavoritePost(post)
         } else {
             onAddedStorage?(post)
             isFavorite = true
@@ -84,5 +86,9 @@ class TableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         isFavorite = false
+    }
+
+    private func didRemoveFavoritePost(_ post: Post) {
+        NotificationCenter.default.post(name: .didRemovePost, object: nil, userInfo: [NotificationKey.postKey : post])
     }
 }

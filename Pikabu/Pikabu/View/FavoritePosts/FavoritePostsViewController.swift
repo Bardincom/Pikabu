@@ -27,7 +27,6 @@ class FavoritePostsViewController: UIViewController {
         super.viewDidLoad()
         //TODO: Добавить Наблюдателя для определения пусто ли хранилище
 //        favoritePostsTableView.isHidden = true
-//        setupViewModel()
         navigationItem.title = Text.favoriteTitle
     }
 
@@ -35,24 +34,6 @@ class FavoritePostsViewController: UIViewController {
         super.viewWillAppear(animated)
         setupViewModel()
         removePostLocalStorage()
-    }
-
-    func removePostLocalStorage() {
-
-        favoriteModelView?.onRemovedStorage = { [weak self] post in
-
-            guard
-                let self = self,
-                let post = post,
-                let index = self.postStorage.localPosts.firstIndex(where: { (removePost) -> Bool in
-                    removePost == post
-                })
-            else {
-                return
-            }
-
-            self.postStorage.removePost(index)
-        }
     }
 }
 
@@ -68,7 +49,6 @@ extension FavoritePostsViewController: UITableViewDataSource, UITableViewDelegat
         var post = favoriteModelView.cellViewModel(forIndexPath: indexPath)
 
         cell.onRemovedStorage = { [weak self] _ in
-            print(post?.title)
             post?.isFavorite = false
             self?.favoriteModelView?.popPostDataLocalStorage(post)
             self?.selectedCells.remove(indexPath)
@@ -80,7 +60,6 @@ extension FavoritePostsViewController: UITableViewDataSource, UITableViewDelegat
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let cell = cell as? TableViewCell else { return }
-
         if selectedCells.contains(indexPath) {
             cell.isFavorite = true
         }
@@ -94,6 +73,21 @@ extension FavoritePostsViewController {
             DispatchQueue.main.async {
                 self?.favoritePostsTableView.reloadData()
             }
+        }
+    }
+
+    func removePostLocalStorage() {
+        favoriteModelView?.onRemovedStorage = { [weak self] post in
+            guard
+                let self = self,
+                let post = post,
+                let index = self.postStorage.localPosts.firstIndex(where: { (removePost) -> Bool in
+                    removePost == post
+                })
+            else {
+                return
+            }
+            self.postStorage.removePost(index)
         }
     }
 }

@@ -23,6 +23,5 @@ extension Post: Equatable {
             && lhs.title == rhs.title
             && lhs.body == rhs.body
             && lhs.images == rhs.images
-            && lhs.isFavorite == rhs.isFavorite
     }
 }

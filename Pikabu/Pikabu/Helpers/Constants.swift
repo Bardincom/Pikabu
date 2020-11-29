@@ -11,3 +11,7 @@ enum Text {
     static let feedTitle = "Посты"
     static let favoriteTitle = "Избранные посты"
 }
+
+enum NotificationKey {
+    static let postKey = "Post"
+}

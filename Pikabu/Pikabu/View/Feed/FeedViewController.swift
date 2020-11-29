@@ -23,7 +23,7 @@ class FeedViewController: UIViewController {
     // MARK: - Private property
 
     private var viewModel: TableViewViewModelType?
-    private var selectedCells: Set<IndexPath> = []
+    private var selectedCellsDict: [IndexPath: Post?] = [:]
 
     // MARK: - LifeCicle
 
@@ -33,6 +33,58 @@ class FeedViewController: UIViewController {
         setupViewModel()
         addPostLocalStorage()
         removePostLocalStorage()
+        addObserver()
+    }
+}
+
+// MARK: - UITableViewDataSource, UITableViewDelegate
+
+extension FeedViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        viewModel?.numberOfRows() ?? 0
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeue(reusable: TableViewCell.self, for: indexPath)
+
+        guard let viewModel = viewModel else { return cell }
+        var post = viewModel.cellViewModel(forIndexPath: indexPath)
+
+        cell.onAddedStorage = { [weak self] _ in
+            post?.isFavorite = true
+            self?.selectedCellsDict.updateValue(post, forKey: indexPath)
+            self?.viewModel?.pushPostDataLocalStorage(post)
+        }
+
+        cell.onRemovedStorage = { [weak self] _ in
+            post?.isFavorite = false
+            self?.viewModel?.popPostDataLocalStorage(post)
+            self?.selectedCellsDict.removeValue(forKey: indexPath)
+        }
+
+        cell.setupPost(post)
+
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let cell = cell as? TableViewCell else { return }
+
+        if let _ = selectedCellsDict[indexPath] {
+            cell.isFavorite = true
+        }
+    }
+}
+
+extension FeedViewController {
+
+    func setupViewModel() {
+        viewModel = FeedViewModel()
+        viewModel?.fetchAllPosts { [weak self] in
+            DispatchQueue.main.async {
+                self?.feedTableView.reloadData()
+            }
+        }
     }
 
     func addPostLocalStorage() {
@@ -58,54 +110,25 @@ class FeedViewController: UIViewController {
             self.postStorage.removePost(index)
         }
     }
-}
 
-// MARK: - UITableViewDataSource, UITableViewDelegate
-
-extension FeedViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel?.numberOfRows() ?? 0
+    func addObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(removeMarkFavoritePost), name: .didRemovePost, object: nil)
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeue(reusable: TableViewCell.self, for: indexPath)
-
-        guard let viewModel = viewModel else { return cell }
-        var post = viewModel.cellViewModel(forIndexPath: indexPath)
-
-        cell.onAddedStorage = { [weak self] _ in
-            post?.isFavorite = true
-            self?.selectedCells.insert(indexPath)
-            self?.viewModel?.pushPostDataLocalStorage(post)
+    @objc
+    func removeMarkFavoritePost(_ notification: Notification) {
+        guard
+            let post = notification.userInfo?[NotificationKey.postKey] as? Post,
+            let indexPath = selectedCellsDict.first(where: { $0.value == post})
+        else {
+            return
         }
 
-        cell.onRemovedStorage = { [weak self] _ in
-            post?.isFavorite = false
-            self?.viewModel?.popPostDataLocalStorage(post)
-            self?.selectedCells.remove(indexPath)
+        self.selectedCellsDict.removeValue(forKey: indexPath.key)
+
+        DispatchQueue.main.async {
+            self.feedTableView.reloadData()
         }
 
-        cell.setupPost(post)
-
-        return cell
-    }
-
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard let cell = cell as? TableViewCell else { return }
-
-        if selectedCells.contains(indexPath) {
-            cell.isFavorite = true
-        }
-    }
-}
-
-extension FeedViewController {
-    func setupViewModel() {
-        viewModel = FeedViewModel()
-        viewModel?.fetchAllPosts { [weak self] in
-            DispatchQueue.main.async {
-                self?.feedTableView.reloadData()
-            }
-        }
     }
 }
