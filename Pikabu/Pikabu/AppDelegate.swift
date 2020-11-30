@@ -27,6 +27,7 @@ private extension AppDelegate {
         feedViewController.tabBarItem.image = Icons.houseFill
         let feedNavigationController = UINavigationController(rootViewController: feedViewController)
 
+
         let favoritePostsViewController = FavoritePostsViewController()
         favoritePostsViewController.tabBarItem.image = Icons.crownFill
         let favoritePostsNavigationController = UINavigationController(rootViewController: favoritePostsViewController)

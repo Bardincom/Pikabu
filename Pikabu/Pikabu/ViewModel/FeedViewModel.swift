@@ -41,6 +41,15 @@ class FeedViewModel: TableViewViewModelType {
         posts[indexPath.row]
     }
 
+    func viewModelForSelectedRow() -> PostViewModel? {
+        guard let selectedIndexPath = selectedIndexPath else { return nil }
+        return PostViewModel(post: posts[selectedIndexPath.row])
+    }
+
+    func selectRow(atIndexPath indexPath: IndexPath) {
+        selectedIndexPath = indexPath
+    }
+
     func pushPostDataLocalStorage(_ post: Post?) {
         onAddedStorage?(post)
     }

@@ -10,6 +10,7 @@ import Foundation
 enum Text {
     static let feedTitle = "Посты"
     static let favoriteTitle = "Избранные посты"
+    static let postTitle = "Пост"
 }
 
 enum NotificationKey {

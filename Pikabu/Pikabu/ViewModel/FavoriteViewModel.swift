@@ -29,6 +29,15 @@ class FavoriteViewModel: TableViewViewModelType {
         completionHandler()
     }
 
+    func viewModelForSelectedRow() -> PostViewModel? {
+        guard let selectedIndexPath = selectedIndexPath else { return nil }
+        return PostViewModel(post: posts[selectedIndexPath.row])
+    }
+
+    func selectRow(atIndexPath indexPath: IndexPath) {
+        selectedIndexPath = indexPath
+    }
+    
     func cellViewModel(forIndexPath indexPath: IndexPath) -> Post? {
         posts[indexPath.row]
     }

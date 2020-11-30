@@ -23,13 +23,13 @@ final class FeedViewController: UIViewController {
     // MARK: - Private property
 
     private var viewModel: TableViewViewModelType?
-    private var selectedCells: [IndexPath: Post?] = [:]
+    private var selectedCells: SelectPost = [:]
 
     // MARK: - LifeCicle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = Text.feedTitle
+        setupNavigationBar(withTitle: Text.feedTitle)
         setupViewModel()
         addPostLocalStorage()
         removePostLocalStorage()
@@ -39,7 +39,7 @@ final class FeedViewController: UIViewController {
 
 // MARK: - UITableViewDataSource, UITableViewDelegate
 
-extension FeedViewController: UITableViewDataSource, UITableViewDelegate {
+extension FeedViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel?.numberOfRows() ?? 0
     }
@@ -66,6 +66,9 @@ extension FeedViewController: UITableViewDataSource, UITableViewDelegate {
 
         return cell
     }
+}
+
+extension FeedViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let cell = cell as? TableViewCell else { return }
@@ -74,6 +77,21 @@ extension FeedViewController: UITableViewDataSource, UITableViewDelegate {
             cell.setupIsFavorite()
         }
     }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+
+        guard let viewModel = viewModel else { return }
+        viewModel.selectRow(atIndexPath: indexPath)
+        guard let postViewModel = viewModel.viewModelForSelectedRow() else { return }
+        let postViewController = PostViewController()
+        postViewController.postViewModel = postViewModel
+
+        navigationController?.pushViewController(postViewController, animated: true)
+
+    }
+    
+
 }
 
 // MARK: - Methods

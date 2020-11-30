@@ -28,7 +28,7 @@ final class FavoritePostsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = Text.favoriteTitle
+        setupNavigationBar(withTitle: Text.favoriteTitle)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -74,6 +74,7 @@ extension FavoritePostsViewController: UITableViewDataSource, UITableViewDelegat
 // MARK: - Methods
 
 extension FavoritePostsViewController {
+
     func setupViewModel() {
         favoriteModelView = FavoriteViewModel()
         favoriteModelView?.fetchAllPosts { [weak self] in

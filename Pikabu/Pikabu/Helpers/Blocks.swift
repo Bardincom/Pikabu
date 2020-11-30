@@ -9,3 +9,4 @@ import Foundation
 
 typealias EmptyBlock = () -> Void
 typealias PostBlock = (Post?) -> Void
+typealias SelectPost = [IndexPath: Post?]
