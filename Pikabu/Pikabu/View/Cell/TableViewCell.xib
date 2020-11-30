@@ -26,17 +26,17 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qkQ-GA-qcs">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="justified" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qkQ-GA-qcs">
                                 <rect key="frame" x="0.0" y="34.5" width="288" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="Image" translatesAutoresizingMaskIntoConstraints="NO" id="vsj-fp-dcS">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="vsj-fp-dcS">
                                 <rect key="frame" x="0.0" y="63" width="288" height="175"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="175" id="45D-rc-pdH"/>
-                                    <constraint firstAttribute="width" constant="288" id="Phu-Es-fhx"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="288" id="Phu-Es-fhx"/>
                                 </constraints>
                             </imageView>
                         </subviews>
@@ -51,15 +51,17 @@
                                     <constraint firstAttribute="width" constant="35" id="fN1-n5-gny"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="User" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BFu-DS-F09">
-                                <rect key="frame" x="45" y="7.5" width="187" height="20.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="UserName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BFu-DS-F09">
+                                <rect key="frame" x="45" y="7.5" width="203" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p5i-On-36S">
-                                <rect key="frame" x="242" y="2.5" width="46" height="30"/>
-                                <state key="normal" title="Button"/>
+                                <rect key="frame" x="258" y="2.5" width="30" height="30"/>
+                                <connections>
+                                    <action selector="pushFavoriteButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="doi-fu-IFS"/>
+                                </connections>
                             </button>
                         </subviews>
                     </stackView>
@@ -76,15 +78,17 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="avatarImage" destination="tEc-eV-MkI" id="FDZ-75-49j"/>
                 <outlet property="bodyPost" destination="qkQ-GA-qcs" id="vJ4-Bj-7eh"/>
+                <outlet property="favoriteButton" destination="p5i-On-36S" id="40U-QJ-qgO"/>
                 <outlet property="imagePost" destination="vsj-fp-dcS" id="aCK-fy-loz"/>
                 <outlet property="titlePost" destination="6yT-in-ziq" id="mRy-rF-FJY"/>
+                <outlet property="userName" destination="BFu-DS-F09" id="xzC-4v-HIA"/>
             </connections>
             <point key="canvasLocation" x="30.399999999999999" y="192.50374812593705"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="Image" width="2048" height="1536"/>
         <image name="defaultAvatar" width="512" height="512"/>
     </resources>
 </document>
