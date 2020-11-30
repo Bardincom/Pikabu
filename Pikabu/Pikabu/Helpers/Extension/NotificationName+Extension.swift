@@ -10,5 +10,4 @@ import UIKit
 
 extension Notification.Name {
     static let didRemovePost = Notification.Name("didRemovePost")
-    static let isEmptyPostStorage = Notification.Name("isEmptyPostStorage")
 }

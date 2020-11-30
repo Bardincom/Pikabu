@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FavoritePostsViewController: UIViewController {
+final class FavoritePostsViewController: UIViewController {
 
     // MARK: - Outlet
 
@@ -18,15 +18,16 @@ class FavoritePostsViewController: UIViewController {
         }
     }
 
-    var postStorage = PostStorage.shared
-
+    // MARK: - Private property
+    
+    private var postStorage = PostStorage.shared
     private var favoriteModelView: TableViewViewModelType?
     private var selectedCells: Set<IndexPath> = []
 
+    // MARK: - LifeCicle
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        //TODO: Добавить Наблюдателя для определения пусто ли хранилище
-//        favoritePostsTableView.isHidden = true
         navigationItem.title = Text.favoriteTitle
     }
 
@@ -34,8 +35,11 @@ class FavoritePostsViewController: UIViewController {
         super.viewWillAppear(animated)
         setupViewModel()
         removePostLocalStorage()
+        checkIsEmptyFavoriteList()
     }
 }
+
+// MARK: - UITableViewDataSource, UITableViewDelegate
 
 extension FavoritePostsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -60,11 +64,14 @@ extension FavoritePostsViewController: UITableViewDataSource, UITableViewDelegat
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let cell = cell as? TableViewCell else { return }
+        
         if selectedCells.contains(indexPath) {
-            cell.isFavorite = true
+            cell.setupIsFavorite()
         }
     }
 }
+
+// MARK: - Methods
 
 extension FavoritePostsViewController {
     func setupViewModel() {
@@ -89,5 +96,9 @@ extension FavoritePostsViewController {
             }
             self.postStorage.removePost(index)
         }
+    }
+
+    func checkIsEmptyFavoriteList() {
+        favoriteModelView?.numberOfRows() == 0 ? (favoritePostsTableView.isHidden = true) : (favoritePostsTableView.isHidden = false)
     }
 }

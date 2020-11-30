@@ -15,3 +15,7 @@ enum Text {
 enum NotificationKey {
     static let postKey = "Post"
 }
+
+enum StorageKey {
+    static let postKey = "post"
+}

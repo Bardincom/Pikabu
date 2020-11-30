@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-class TableViewCell: UITableViewCell {
+final class TableViewCell: UITableViewCell {
 
     // MARK: - Outlet
 
@@ -19,9 +19,13 @@ class TableViewCell: UITableViewCell {
     @IBOutlet private var imagePost: UIImageView!
     @IBOutlet private var favoriteButton: UIButton!
 
-    private var post: Post?
+    // MARK: - CallBack
+    public var onAddedStorage: PostBlock?
+    public var onRemovedStorage: PostBlock?
 
-    var isFavorite: Bool = false {
+    // MARK: - Private property
+
+    private var isFavorite: Bool = false {
         didSet {
             switch isFavorite {
             case true:
@@ -32,8 +36,9 @@ class TableViewCell: UITableViewCell {
         }
     }
 
-    public var onAddedStorage: PostBlock?
-    public var onRemovedStorage: PostBlock?
+    private var post: Post?
+
+    // MARK: - LifeCicle
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -41,7 +46,9 @@ class TableViewCell: UITableViewCell {
         setupUI()
     }
 
-    @IBAction func pushFavoriteButton(_ sender: UIButton) {
+    // MARK: - IBAction Methods
+
+    @IBAction private func pushFavoriteButton(_ sender: UIButton) {
         guard let post = post else { return }
         if isFavorite || post.isFavorite == true {
             onRemovedStorage?(post)
@@ -71,16 +78,8 @@ class TableViewCell: UITableViewCell {
         imagePost.isHidden = false
     }
 
-    private func setupFonts() {
-        titlePost.font = Fonts.titleFont
-        bodyPost.font = Fonts.bodyFont
-        userName.font = Fonts.userNameFont
-    }
-
-    private func setupUI() {
-        avatarImage.layer.cornerRadius = avatarImage.frame.height / 2
-        favoriteButton.setImage(Icons.crown, for: .normal)
-        favoriteButton.tintColor = Color.styleColor
+    func setupIsFavorite() {
+        isFavorite = true
     }
 
     override func prepareForReuse() {
@@ -88,7 +87,26 @@ class TableViewCell: UITableViewCell {
         isFavorite = false
     }
 
-    private func didRemoveFavoritePost(_ post: Post) {
+
+}
+
+// MARK: - Private Methods
+
+private extension TableViewCell {
+
+    func setupFonts() {
+        titlePost.font = Fonts.titleFont
+        bodyPost.font = Fonts.bodyFont
+        userName.font = Fonts.userNameFont
+    }
+
+    func setupUI() {
+        avatarImage.layer.cornerRadius = avatarImage.frame.height / 2
+        favoriteButton.setImage(Icons.crown, for: .normal)
+        favoriteButton.tintColor = Color.styleColor
+    }
+
+    func didRemoveFavoritePost(_ post: Post) {
         NotificationCenter.default.post(name: .didRemovePost, object: nil, userInfo: [NotificationKey.postKey : post])
     }
 }

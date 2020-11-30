@@ -9,6 +9,8 @@ import Foundation
 
 public final class PostStorage {
 
+    // MARK: - Property
+
     public static let shared: PostStorage = .init()
 
     var localPosts: [Post] = [] {
@@ -17,15 +19,17 @@ public final class PostStorage {
         }
     }
 
+    // MARK: - Private Property
+
     private lazy var userDefaults: UserDefaults = .standard
     private lazy var decoder: JSONDecoder = .init()
     private lazy var encoder: JSONEncoder = .init()
 
-    // MARK: - Private
+    // MARK: - Init
 
     private init() {
-        userDefaults.setValue(nil, forKey: "posts")
-        guard let data = userDefaults.data(forKey: "posts") else { return}
+        userDefaults.setValue(nil, forKey: StorageKey.postKey)
+        guard let data = userDefaults.data(forKey: StorageKey.postKey) else { return }
 
         do {
             localPosts = try decoder.decode([Post].self, from: data)
@@ -35,10 +39,6 @@ public final class PostStorage {
         catch {
             print("Ошибка декодирования сохранённых публикаций", error)
         }
-    }
-
-    func removePost(_ index: Int) {
-        localPosts.remove(at: index)
     }
 }
 
@@ -51,10 +51,14 @@ extension PostStorage {
             let data = try encoder.encode(localPosts)
             print(data)
 
-            userDefaults.setValue(data, forKey: "posts")
+            userDefaults.setValue(data, forKey: StorageKey.postKey)
         }
         catch {
             print("Ошибка кодирования публикации. Сохранение невозможно.", error)
         }
+    }
+
+    func removePost(_ index: Int) {
+        localPosts.remove(at: index)
     }
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FeedViewController: UIViewController {
+final class FeedViewController: UIViewController {
     
     // MARK: - Outlet
 
@@ -23,7 +23,7 @@ class FeedViewController: UIViewController {
     // MARK: - Private property
 
     private var viewModel: TableViewViewModelType?
-    private var selectedCellsDict: [IndexPath: Post?] = [:]
+    private var selectedCells: [IndexPath: Post?] = [:]
 
     // MARK: - LifeCicle
 
@@ -52,14 +52,14 @@ extension FeedViewController: UITableViewDataSource, UITableViewDelegate {
 
         cell.onAddedStorage = { [weak self] _ in
             post?.isFavorite = true
-            self?.selectedCellsDict.updateValue(post, forKey: indexPath)
+            self?.selectedCells.updateValue(post, forKey: indexPath)
             self?.viewModel?.pushPostDataLocalStorage(post)
         }
 
         cell.onRemovedStorage = { [weak self] _ in
             post?.isFavorite = false
             self?.viewModel?.popPostDataLocalStorage(post)
-            self?.selectedCellsDict.removeValue(forKey: indexPath)
+            self?.selectedCells.removeValue(forKey: indexPath)
         }
 
         cell.setupPost(post)
@@ -70,11 +70,13 @@ extension FeedViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let cell = cell as? TableViewCell else { return }
 
-        if let _ = selectedCellsDict[indexPath] {
-            cell.isFavorite = true
+        if let _ = selectedCells[indexPath] {
+            cell.setupIsFavorite()
         }
     }
 }
+
+// MARK: - Methods
 
 extension FeedViewController {
 
@@ -119,16 +121,15 @@ extension FeedViewController {
     func removeMarkFavoritePost(_ notification: Notification) {
         guard
             let post = notification.userInfo?[NotificationKey.postKey] as? Post,
-            let indexPath = selectedCellsDict.first(where: { $0.value == post})
+            let indexPath = selectedCells.first(where: { $0.value == post})
         else {
             return
         }
 
-        self.selectedCellsDict.removeValue(forKey: indexPath.key)
+        self.selectedCells.removeValue(forKey: indexPath.key)
 
         DispatchQueue.main.async {
             self.feedTableView.reloadData()
         }
-
     }
 }
