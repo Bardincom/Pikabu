@@ -35,6 +35,10 @@ final class FeedViewController: UIViewController {
         removePostLocalStorage()
         addObserver()
     }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegate
@@ -82,13 +86,26 @@ extension FeedViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
 
         guard let viewModel = viewModel else { return }
+
         viewModel.selectRow(atIndexPath: indexPath)
         guard let postViewModel = viewModel.viewModelForSelectedRow() else { return }
         let postViewController = PostViewController()
         postViewController.postViewModel = postViewModel
 
-        navigationController?.pushViewController(postViewController, animated: true)
+        var post = viewModel.cellViewModel(forIndexPath: indexPath)
 
+        postViewController.onAddedStorage = { [weak self] _ in
+            post?.isFavorite = true
+            self?.selectedCells.updateValue(post, forKey: indexPath)
+            self?.viewModel?.pushPostDataLocalStorage(post)
+            self?.feedTableView.reloadData()
+        }
+
+        if let _ = selectedCells[indexPath] {
+            postViewController.isFavorite = true
+        }
+
+        navigationController?.pushViewController(postViewController, animated: true)
     }
     
 
@@ -102,6 +119,7 @@ extension FeedViewController {
         viewModel = FeedViewModel()
         viewModel?.fetchAllPosts { [weak self] in
             DispatchQueue.main.async {
+                self?.checkIsConnectivity()
                 self?.feedTableView.reloadData()
             }
         }
@@ -132,11 +150,12 @@ extension FeedViewController {
     }
 
     func addObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(removeMarkFavoritePost), name: .didRemovePost, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(removeFavoritePost), name: .didRemovePost, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(addFavoritePost), name: .didAddedPost, object: nil)
     }
 
     @objc
-    func removeMarkFavoritePost(_ notification: Notification) {
+    func removeFavoritePost(_ notification: Notification) {
         guard
             let post = notification.userInfo?[NotificationKey.postKey] as? Post,
             let indexPath = selectedCells.first(where: { $0.value == post})
@@ -144,10 +163,31 @@ extension FeedViewController {
             return
         }
 
-        self.selectedCells.removeValue(forKey: indexPath.key)
+        selectedCells.removeValue(forKey: indexPath.key)
+        viewModel?.popPostDataLocalStorage(post)
 
         DispatchQueue.main.async {
             self.feedTableView.reloadData()
         }
+    }
+
+//    @objc
+//    func addFavoritePost(_ notification: Notification) {
+//        guard let post = notification.object as? Post,
+//              let indexPath = notification.userInfo?["IndexPath"] as? IndexPath
+////              let indexPath = selectedCells.first(where: { $0.value == post})
+//        else {
+//            return
+//        }
+//        print(indexPath)
+//        self.selectedCells.updateValue(post, forKey: indexPath)
+////        viewModel?.pushPostDataLocalStorage(post)
+//        DispatchQueue.main.async {
+//            self.feedTableView.reloadData()
+//        }
+//    }
+
+    func checkIsConnectivity() {
+        viewModel?.numberOfRows() == 0 ? (feedTableView.isHidden = true) : (feedTableView.isHidden = false)
     }
 }

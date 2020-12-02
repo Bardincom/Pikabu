@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -20,6 +21,17 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="suL-hK-rfy">
+                    <rect key="frame" x="20" y="0.0" width="280.5" height="568"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Отсутствует интернет соединение." textAlignment="center" lineBreakMode="clip" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sfJ-yh-eFb">
+                            <rect key="frame" x="0.0" y="0.0" width="280.5" height="568"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" name="styleColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                </stackView>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="GyX-0X-AFy">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -32,7 +44,10 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
+                <constraint firstItem="suL-hK-rfy" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="7jM-8v-Qvf"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="GyX-0X-AFy" secondAttribute="bottom" id="Mpp-IB-KcT"/>
+                <constraint firstItem="suL-hK-rfy" firstAttribute="top" secondItem="GyX-0X-AFy" secondAttribute="top" id="SaK-6d-hBV"/>
+                <constraint firstItem="suL-hK-rfy" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="cTT-cJ-POB"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="GyX-0X-AFy" secondAttribute="trailing" id="fUs-ja-Td9"/>
                 <constraint firstItem="GyX-0X-AFy" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="leo-qg-Tqm"/>
                 <constraint firstItem="GyX-0X-AFy" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="pdK-OY-kSU"/>
@@ -41,6 +56,9 @@
         </view>
     </objects>
     <resources>
+        <namedColor name="styleColor">
+            <color red="0.38039215686274508" green="0.62745098039215685" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -86,8 +86,6 @@ final class TableViewCell: UITableViewCell {
         super.prepareForReuse()
         isFavorite = false
     }
-
-
 }
 
 // MARK: - Private Methods

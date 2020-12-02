@@ -20,14 +20,20 @@ final class PostViewController: UIViewController {
     }
 
     private var favoriteButton: UIBarButtonItem!
-
-    var postViewModel: PostViewModel?
+    private var post: Post?
+    private var postStorage = PostStorage.shared
+    public var onAddedStorage: PostBlock?
+    
+    public var isFavorite: Bool = false
+//    public var indexPath: IndexPath?
+    public var postViewModel: PostViewModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupViewModel()
         setupUI()
+        addPostLocalStorage()
+//        print(indexPath)
     }
 }
 
@@ -47,18 +53,25 @@ extension PostViewController: UICollectionViewDataSource {
 
         return cell
     }
-
-
 }
 
-extension PostViewController {
+private extension PostViewController {
+
+    func addPostLocalStorage() {
+//        onAddedStorage = { [weak self] post in
+//            guard let post = post else {return }
+//            self?.postStorage.localPosts.append(post)
+//        }
+    }
+
     func setupViewModel() {
-        
         postViewModel?.getPostForId(completionHandler: {
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
+                self.post = self.postViewModel?.post
                 self.titlePost.text = self.postViewModel?.title
                 self.bodyPost.text = self.postViewModel?.body
+//                self.indexPath = self.postViewModel?.indexPath
             }
         })
     }
@@ -84,7 +97,19 @@ extension PostViewController {
 
     @objc
     func pushFavoriteButton() {
-        print("Добавить в избранное")
+        guard var post = post else { return }
+        isFavorite = !isFavorite
+        switch isFavorite {
+            case false:
+                didRemoveFavoritePost(post)
+                favoriteButton.image = Icons.crown
+            case true:
+                post.isFavorite = true
+                onAddedStorage?(post)
+//                didAddedFavoritePost(post)
+                favoriteButton.image = Icons.crownFill
+        }
+
     }
 
     @objc
@@ -102,5 +127,25 @@ extension PostViewController {
         avatarImage.layer.cornerRadius = avatarImage.frame.height / 2
         setupFonts()
         setupNavigationBar()
+        setupFavoriteButton()
+
     }
+
+    func setupFavoriteButton() {
+        switch isFavorite {
+            case false:
+                favoriteButton.image = Icons.crown
+            case true:
+                favoriteButton.image = Icons.crownFill
+        }
+    }
+
+    func didRemoveFavoritePost(_ post: Post) {
+        NotificationCenter.default.post(name: .didRemovePost, object: nil, userInfo: [NotificationKey.postKey : post])
+    }
+
+//    func didAddedFavoritePost(_ post: Post) {
+//        print(post.title, indexPath)
+//        NotificationCenter.default.post(name: .didAddedPost, object: post, userInfo: ["IndexPath" : indexPath])
+//    }
 }

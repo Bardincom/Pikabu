@@ -9,7 +9,11 @@ import Foundation
 
 class PostViewModel {
 
-    private var post: Post
+//    var onAddedStorage: PostBlock?
+    
+//    var indexPath: IndexPath?
+
+    var post: Post
     private var networkService = NetworkService()
 
     var id: String {
@@ -44,8 +48,12 @@ class PostViewModel {
                     completionHandler()
                 case .failure(let error):
                     print(error.description)
+                    completionHandler()
             }
         }
     }
-    
+
+//    func pushPostDataLocalStorage(_ post: Post?) {
+//        onAddedStorage?(post)
+//    }
 }

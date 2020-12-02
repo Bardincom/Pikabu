@@ -35,13 +35,14 @@ final class FavoritePostsViewController: UIViewController {
         super.viewWillAppear(animated)
         setupViewModel()
         removePostLocalStorage()
+//        addPostLocalStorage()
         checkIsEmptyFavoriteList()
     }
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegate
 
-extension FavoritePostsViewController: UITableViewDataSource, UITableViewDelegate {
+extension FavoritePostsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         favoriteModelView?.numberOfRows() ?? 0
     }
@@ -58,22 +59,49 @@ extension FavoritePostsViewController: UITableViewDataSource, UITableViewDelegat
             self?.selectedCells.remove(indexPath)
         }
 
+//        cell.onAddedStorage = { [weak self] _ in
+//            post?.isFavorite = true
+//            self?.favoriteModelView?.pushPostDataLocalStorage(post)
+//            self?.selectedCells.insert(indexPath)
+//        }
+
         cell.setupPost(post)
         return cell
     }
+}
+
+extension FavoritePostsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let cell = cell as? TableViewCell else { return }
-        
+
         if selectedCells.contains(indexPath) {
             cell.setupIsFavorite()
         }
     }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+
+        guard let viewModel = favoriteModelView else { return }
+        viewModel.selectRow(atIndexPath: indexPath)
+        guard let postViewModel = viewModel.viewModelForSelectedRow() else { return }
+        let postViewController = PostViewController()
+        postViewController.postViewModel = postViewModel
+
+        if selectedCells.contains(indexPath) {
+            postViewController.isFavorite = true
+            
+        }
+
+        navigationController?.pushViewController(postViewController, animated: true)
+    }
+
 }
 
 // MARK: - Methods
 
-extension FavoritePostsViewController {
+private extension FavoritePostsViewController {
 
     func setupViewModel() {
         favoriteModelView = FavoriteViewModel()
@@ -98,6 +126,15 @@ extension FavoritePostsViewController {
             self.postStorage.removePost(index)
         }
     }
+
+//    func addPostLocalStorage() {
+//        favoriteModelView?.onAddedStorage = { [weak self] post in
+//            guard let post = post else {return }
+//            self?.postStorage.localPosts.append(post)
+//        }
+//    }
+
+    
 
     func checkIsEmptyFavoriteList() {
         favoriteModelView?.numberOfRows() == 0 ? (favoritePostsTableView.isHidden = true) : (favoritePostsTableView.isHidden = false)
