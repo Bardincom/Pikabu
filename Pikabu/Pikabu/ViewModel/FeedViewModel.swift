@@ -16,6 +16,7 @@ class FeedViewModel: TableViewViewModelType {
 
     private var selectedIndexPath: IndexPath?
     private var posts = [Post]()
+    private var post: Post?
     private var networkService = NetworkService()
 
     // MARK: - Methods
@@ -39,6 +40,15 @@ class FeedViewModel: TableViewViewModelType {
 
     func cellViewModel(forIndexPath indexPath: IndexPath) -> Post? {
         posts[indexPath.row]
+    }
+
+    func viewModelForSelectedRow() -> PostViewModel? {
+        guard let selectedIndexPath = selectedIndexPath else { return nil }
+        return PostViewModel(post: posts[selectedIndexPath.row])
+    }
+
+    func selectRow(atIndexPath indexPath: IndexPath) {
+        selectedIndexPath = indexPath
     }
 
     func pushPostDataLocalStorage(_ post: Post?) {

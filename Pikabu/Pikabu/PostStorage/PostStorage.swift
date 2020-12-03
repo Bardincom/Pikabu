@@ -33,8 +33,6 @@ public final class PostStorage {
 
         do {
             localPosts = try decoder.decode([Post].self, from: data)
-            print(localPosts.count)
-
         }
         catch {
             print("Ошибка декодирования сохранённых публикаций", error)
@@ -49,8 +47,6 @@ extension PostStorage {
     private func save() {
         do {
             let data = try encoder.encode(localPosts)
-            print(data)
-
             userDefaults.setValue(data, forKey: StorageKey.postKey)
         }
         catch {

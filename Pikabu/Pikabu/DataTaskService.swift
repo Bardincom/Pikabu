@@ -15,17 +15,22 @@ protocol DataTaskServiceProtocol {
 
 class DataTaskService: DataTaskServiceProtocol {
 
-    private let sharedSession = URLSession.shared
+    private let session = URLSession(configuration: URLSessionConfiguration.default)
     private let decoder = JSONDecoder()
 
     /// Получение данных после запроса
     func dataTask<T: Codable>(with request: URLRequest, completionHandler: @escaping ResultBlock<T>) {
-        let dataTask = sharedSession.dataTask(with: request) { [weak self] (data, response, error) in
+        
+        session.configuration.waitsForConnectivity = true
+        session.configuration.timeoutIntervalForResource = 60
+
+        let dataTask = session.dataTask(with: request) { [weak self] (data, response, error) in
             guard let self = self else { return }
-//            if let error = error {
-//                self.onlineService.isOnline = false
-//                print("Возникла ошибка: \(error.localizedDescription)")
-//            }
+            if let error = error {
+                self.didChangesForConnectivity()
+                print("Возникла ошибка: \(error.localizedDescription)")
+                completionHandler(.failure(.otherError))
+            }
 
             guard let httpResponse = self.checkResponse(response: response, completionHandler: completionHandler) else { return }
             guard self.checkBackendErrorStatus(httpResponse: httpResponse, completionHandler: completionHandler) else { return }
@@ -34,10 +39,8 @@ class DataTaskService: DataTaskServiceProtocol {
             do {
                 let result = try self.decoder.decode(T.self, from: data)
                 completionHandler(.success(result))
-//                ActivityIndicator.stop()
             } catch {
-                completionHandler(.failure(.transferError))
-//                ActivityIndicator.stop()
+                completionHandler(.failure(.notFound))
             }
         }
         dataTask.resume()
@@ -52,11 +55,10 @@ class DataTaskService: DataTaskServiceProtocol {
             switch httpResponse.statusCode {
                 case 400: backendError = .badRequest
                 case 404: backendError = .notFound
-                default: backendError = .transferError
+                default: backendError = .otherError
             }
 
             completionHandler(.failure(backendError))
-//            ActivityIndicator.stop()
             return false
         }
         return true
@@ -68,14 +70,14 @@ class DataTaskService: DataTaskServiceProtocol {
 
         guard let httpResponse = response as? HTTPURLResponse else {
 
-            let backendError = BackendError.transferError
+            let backendError = BackendError.otherError
             completionHandler(.failure(backendError))
-//            onlineService.isOnline = false
-//            ActivityIndicator.stop()
             return nil}
-//        onlineService.isOnline = true
         return httpResponse
+    }
+
+    private func didChangesForConnectivity() {
+        NotificationCenter.default.post(name: .didChangesForConnectivity, object: nil)
     }
 }
 
-//}

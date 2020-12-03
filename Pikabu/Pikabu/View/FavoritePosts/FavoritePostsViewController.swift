@@ -22,13 +22,13 @@ final class FavoritePostsViewController: UIViewController {
     
     private var postStorage = PostStorage.shared
     private var favoriteModelView: TableViewViewModelType?
-    private var selectedCells: Set<IndexPath> = []
+    private var selectedCells: SelectPost = [:]
 
     // MARK: - LifeCicle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = Text.favoriteTitle
+        setupNavigationBar(withTitle: Text.favoriteTitle)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -39,9 +39,9 @@ final class FavoritePostsViewController: UIViewController {
     }
 }
 
-// MARK: - UITableViewDataSource, UITableViewDelegate
+// MARK: - UITableViewDataSource
 
-extension FavoritePostsViewController: UITableViewDataSource, UITableViewDelegate {
+extension FavoritePostsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         favoriteModelView?.numberOfRows() ?? 0
     }
@@ -55,25 +55,52 @@ extension FavoritePostsViewController: UITableViewDataSource, UITableViewDelegat
         cell.onRemovedStorage = { [weak self] _ in
             post?.isFavorite = false
             self?.favoriteModelView?.popPostDataLocalStorage(post)
-            self?.selectedCells.remove(indexPath)
+            self?.selectedCells.removeValue(forKey: indexPath)
         }
 
         cell.setupPost(post)
         return cell
     }
+}
+
+// MARK: - UITableViewDelegate
+
+extension FavoritePostsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let cell = cell as? TableViewCell else { return }
-        
-        if selectedCells.contains(indexPath) {
+
+        if let _ = selectedCells[indexPath] {
             cell.setupIsFavorite()
         }
     }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+
+        guard let viewModel = favoriteModelView else { return }
+        viewModel.selectRow(atIndexPath: indexPath)
+        guard let postViewModel = viewModel.viewModelForSelectedRow() else { return }
+        let postViewController = PostViewController()
+        postViewController.postViewModel = postViewModel
+        postViewController.isFavorite = true
+
+        var post = viewModel.cellViewModel(forIndexPath: indexPath)
+        postViewController.onAddedStorage = { [weak self] _ in
+            post?.isFavorite = true
+            self?.selectedCells.updateValue(post, forKey: indexPath)
+            self?.favoriteModelView?.pushPostDataLocalStorage(post)
+            self?.favoritePostsTableView.reloadData()
+        }
+        
+        navigationController?.pushViewController(postViewController, animated: true)
+    }
 }
 
-// MARK: - Methods
+// MARK: - Private Methods
 
-extension FavoritePostsViewController {
+private extension FavoritePostsViewController {
+
     func setupViewModel() {
         favoriteModelView = FavoriteViewModel()
         favoriteModelView?.fetchAllPosts { [weak self] in

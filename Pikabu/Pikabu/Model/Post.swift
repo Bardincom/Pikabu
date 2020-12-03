@@ -12,7 +12,6 @@ struct Post: Codable {
     var title: String
     var body: String?
     var images: [String]?
-
     var isFavorite: Bool? = false
 }
 

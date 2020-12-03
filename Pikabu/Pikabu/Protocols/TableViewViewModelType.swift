@@ -15,6 +15,10 @@ protocol TableViewViewModelType {
     
     func cellViewModel(forIndexPath indexPath: IndexPath) -> Post?
 
+    func viewModelForSelectedRow() -> PostViewModel?
+
+    func selectRow(atIndexPath indexPath: IndexPath)
+
     func fetchAllPosts(completionHandler: @escaping EmptyBlock)
 
     func pushPostDataLocalStorage(_ post: Post?)

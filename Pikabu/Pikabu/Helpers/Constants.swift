@@ -10,6 +10,13 @@ import Foundation
 enum Text {
     static let feedTitle = "Посты"
     static let favoriteTitle = "Избранные посты"
+    static let postTitle = "Пост"
+    static let alertMessage = "Обновить?"
+}
+
+enum ButtonName {
+    static let refresh = "Обновить"
+    static let cancel = "Отмена"
 }
 
 enum NotificationKey {

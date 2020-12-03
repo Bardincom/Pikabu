@@ -29,9 +29,17 @@ final class TableViewCell: UITableViewCell {
         didSet {
             switch isFavorite {
             case true:
-                favoriteButton.setImage(Icons.crownFill, for: .normal)
+                if #available(iOS 13.0, *) {
+                    favoriteButton.setImage(SFIcons.crownFill, for: .normal)
+                } else {
+                    favoriteButton.setImage(Icons.starFill, for: .normal)
+                }
             case false:
-                favoriteButton.setImage(Icons.crown, for: .normal)
+                if #available(iOS 13.0, *) {
+                    favoriteButton.setImage(SFIcons.crown, for: .normal)
+                } else {
+                    favoriteButton.setImage(Icons.star, for: .normal)
+                }
             }
         }
     }
@@ -70,7 +78,11 @@ final class TableViewCell: UITableViewCell {
         bodyPost.text = post.body
 
         if post.isFavorite ?? false {
-            favoriteButton.setImage(Icons.crownFill, for: .normal)
+            if #available(iOS 13.0, *) {
+                favoriteButton.setImage(SFIcons.crownFill, for: .normal)
+            } else {
+                favoriteButton.setImage(Icons.starFill, for: .normal)
+            }
         }
 
         guard let image = post.images?.first else { return }
@@ -86,8 +98,6 @@ final class TableViewCell: UITableViewCell {
         super.prepareForReuse()
         isFavorite = false
     }
-
-
 }
 
 // MARK: - Private Methods
@@ -102,8 +112,12 @@ private extension TableViewCell {
 
     func setupUI() {
         avatarImage.layer.cornerRadius = avatarImage.frame.height / 2
-        favoriteButton.setImage(Icons.crown, for: .normal)
         favoriteButton.tintColor = Color.styleColor
+        if #available(iOS 13.0, *) {
+            favoriteButton.setImage(SFIcons.crown, for: .normal)
+        } else {
+            favoriteButton.setImage(Icons.star, for: .normal)
+        }
     }
 
     func didRemoveFavoritePost(_ post: Post) {

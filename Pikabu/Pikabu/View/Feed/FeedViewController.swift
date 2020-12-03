@@ -23,23 +23,27 @@ final class FeedViewController: UIViewController {
     // MARK: - Private property
 
     private var viewModel: TableViewViewModelType?
-    private var selectedCells: [IndexPath: Post?] = [:]
+    private var selectedCells: SelectPost = [:]
 
     // MARK: - LifeCicle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = Text.feedTitle
+        setupNavigationBar(withTitle: Text.feedTitle)
         setupViewModel()
         addPostLocalStorage()
         removePostLocalStorage()
         addObserver()
     }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegate
 
-extension FeedViewController: UITableViewDataSource, UITableViewDelegate {
+extension FeedViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel?.numberOfRows() ?? 0
     }
@@ -66,6 +70,9 @@ extension FeedViewController: UITableViewDataSource, UITableViewDelegate {
 
         return cell
     }
+}
+
+extension FeedViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard let cell = cell as? TableViewCell else { return }
@@ -74,6 +81,36 @@ extension FeedViewController: UITableViewDataSource, UITableViewDelegate {
             cell.setupIsFavorite()
         }
     }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+
+        guard let viewModel = viewModel else { return }
+
+        viewModel.selectRow(atIndexPath: indexPath)
+        guard let postViewModel = viewModel.viewModelForSelectedRow() else { return }
+        let postViewController = PostViewController()
+        postViewController.postViewModel = postViewModel
+
+        var post = viewModel.cellViewModel(forIndexPath: indexPath)
+
+        postViewController.onAddedStorage = { [weak self] _ in
+            post?.isFavorite = true
+            self?.selectedCells.updateValue(post, forKey: indexPath)
+            self?.viewModel?.pushPostDataLocalStorage(post)
+            self?.feedTableView.reloadData()
+        }
+
+        if let _ = selectedCells[indexPath] {
+            postViewController.isFavorite = true
+        } else {
+            postViewController.isFavorite = false
+        }
+
+        navigationController?.pushViewController(postViewController, animated: true)
+    }
+    
+
 }
 
 // MARK: - Methods
@@ -85,6 +122,7 @@ extension FeedViewController {
         viewModel?.fetchAllPosts { [weak self] in
             DispatchQueue.main.async {
                 self?.feedTableView.reloadData()
+                self?.feedTableView.isHidden = false
             }
         }
     }
@@ -114,11 +152,12 @@ extension FeedViewController {
     }
 
     func addObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(removeMarkFavoritePost), name: .didRemovePost, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(removeFavoritePost), name: .didRemovePost, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(changesForConnectivity), name: .didChangesForConnectivity, object: nil)
     }
 
     @objc
-    func removeMarkFavoritePost(_ notification: Notification) {
+    func removeFavoritePost(_ notification: Notification) {
         guard
             let post = notification.userInfo?[NotificationKey.postKey] as? Post,
             let indexPath = selectedCells.first(where: { $0.value == post})
@@ -126,10 +165,31 @@ extension FeedViewController {
             return
         }
 
-        self.selectedCells.removeValue(forKey: indexPath.key)
+        selectedCells.removeValue(forKey: indexPath.key)
+        viewModel?.popPostDataLocalStorage(post)
 
+        feedTableView.reloadData()
+    }
+
+    @objc
+    func changesForConnectivity() {
         DispatchQueue.main.async {
-            self.feedTableView.reloadData()
+            self.viewModel?.numberOfRows() == 0
+                ? (self.feedTableView.isHidden = true)
+                : (self.feedTableView.isHidden = false)
         }
+
+        delay(20) {
+            Alert.showAlert(self, Text.alertMessage) { [weak self] in
+                self?.setupViewModel()
+            }
+        }
+
+    }
+
+    func delay(_ delay: Int, completion: @escaping () -> ()) {
+      DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(delay)) {
+        completion()
+      }
     }
 }
