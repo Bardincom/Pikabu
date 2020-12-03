@@ -16,7 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         assembly()
         return true
     }
-
 }
 
 private extension AppDelegate {
@@ -24,10 +23,29 @@ private extension AppDelegate {
     func assembly() {
         window = UIWindow(frame: UIScreen.main.bounds)
 
-        let rootViewController = ViewController()
-//        rootViewController.title = Title.weatherViewControllerTitle
-        let navigationController = UINavigationController(rootViewController: rootViewController)
-        window?.rootViewController = navigationController
+        let feedViewController = FeedViewController()
+
+        if #available(iOS 13.0, *) {
+            feedViewController.tabBarItem.image = SFIcons.houseFill
+        } else {
+            feedViewController.tabBarItem.image = Icons.houseFill
+        }
+        let feedNavigationController = UINavigationController(rootViewController: feedViewController)
+
+
+        let favoritePostsViewController = FavoritePostsViewController()
+        if #available(iOS 13.0, *) {
+            favoritePostsViewController.tabBarItem.image = SFIcons.crownFill
+        } else {
+            favoritePostsViewController.tabBarItem.image = Icons.starFill
+        }
+        let favoritePostsNavigationController = UINavigationController(rootViewController: favoritePostsViewController)
+
+        let tabBarController = UITabBarController()
+        tabBarController.tabBar.tintColor = Color.styleColor
+        tabBarController.setViewControllers([feedNavigationController, favoritePostsNavigationController], animated: false)
+
+        window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
     }
 }

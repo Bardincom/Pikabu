@@ -1,0 +1,185 @@
+//
+//  PostViewController.swift
+//  Pikabu
+//
+//  Created by Aleksey Bardin on 30.11.2020.
+//
+
+import UIKit
+
+final class PostViewController: UIViewController {
+
+    // MARK: - Outlet
+
+    @IBOutlet private var userName: UILabel!
+    @IBOutlet private var avatarImage: UIImageView!
+    @IBOutlet private var titlePost: UILabel!
+    @IBOutlet private var bodyPost: UILabel!
+    @IBOutlet var postImageCollectionView: UICollectionView! {
+        willSet {
+            newValue.register(nibCell: PostImageCollectionViewCell.self)
+        }
+    }
+
+    // MARK: - Private property
+
+    private var favoriteButton: UIBarButtonItem!
+    private var backButton: UIBarButtonItem!
+    private var post: Post?
+    private var postStorage = PostStorage.shared
+
+    // MARK: - Public property
+
+    public var onAddedStorage: PostBlock?
+    public var isFavorite: Bool = true
+    public var postViewModel: PostViewModel?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupViewModel()
+        setupUI()
+    }
+}
+
+// MARK: - UICollectionViewDataSource
+
+extension PostViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        postViewModel?.images?.count ?? 0
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeue(cell: PostImageCollectionViewCell.self, for: indexPath)
+
+        guard let images = postViewModel?.images else { return cell }
+
+        let image = images[indexPath.row]
+
+        cell.setupImages(image)
+
+        return cell
+    }
+}
+
+extension PostViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let collectionCellWidth: CGFloat = (view.frame.size.width)
+        let collectionCellHeight: CGFloat = (view.frame.size.height / 2)
+            return CGSize(width: collectionCellWidth, height: collectionCellHeight)
+        }
+}
+
+// MARK: - Private Methods
+
+private extension PostViewController {
+
+    func setupViewModel() {
+        postViewModel?.getPostForId(completionHandler: {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.post = self.postViewModel?.post
+                self.titlePost.text = self.postViewModel?.title
+                self.bodyPost.text = self.postViewModel?.body
+            }
+        })
+    }
+
+    func setupNavigationBar() {
+        if #available(iOS 13.0, *) {
+            favoriteButton = UIBarButtonItem(image: SFIcons.crown,
+                                             style: .plain,
+                                             target: self,
+                                             action: #selector(pushFavoriteButton))
+        } else {
+            favoriteButton = UIBarButtonItem(image: Icons.star,
+                                             style: .plain,
+                                             target: self,
+                                             action: #selector(pushFavoriteButton))
+        }
+
+
+        if #available(iOS 13.0, *) {
+            backButton = UIBarButtonItem(image: SFIcons.chevronLeft,
+                                             style: .plain,
+                                             target: self,
+                                             action: #selector(popViewController))
+
+        } else {
+            backButton = UIBarButtonItem(image: Icons.chevronLeft,
+                                             style: .plain,
+                                             target: self,
+                                             action: #selector(popViewController))
+        }
+
+
+        favoriteButton.tintColor = Color.styleColor
+        backButton.tintColor = Color.styleColor
+        navigationItem.rightBarButtonItems = .some([favoriteButton])
+        navigationItem.leftBarButtonItem = .some(backButton)
+        setupNavigationBar(withTitle: Text.postTitle)
+    }
+
+    @objc
+    func pushFavoriteButton() {
+        guard var post = post else { return }
+        isFavorite = !isFavorite
+        switch isFavorite {
+            case false:
+                didRemoveFavoritePost(post)
+                if #available(iOS 13.0, *) {
+                    favoriteButton.image = SFIcons.crown
+                } else {
+                    favoriteButton.image = Icons.star
+                }
+            case true:
+                post.isFavorite = true
+                onAddedStorage?(post)
+                if #available(iOS 13.0, *) {
+                    favoriteButton.image = SFIcons.crownFill
+                } else {
+                    favoriteButton.image = Icons.starFill
+                }
+        }
+
+    }
+
+    @objc
+    func popViewController() {
+        navigationController?.popViewController(animated: true)
+    }
+
+    func setupFonts() {
+        titlePost.font = Fonts.titleFont
+        bodyPost.font = Fonts.bodyFont
+        userName.font = Fonts.postUserNameFont
+    }
+
+    func setupUI() {
+        avatarImage.layer.cornerRadius = avatarImage.frame.height / 2
+        setupFonts()
+        setupNavigationBar()
+        setupFavoriteButton()
+    }
+
+    func setupFavoriteButton() {
+        switch isFavorite {
+            case false:
+                if #available(iOS 13.0, *) {
+                    favoriteButton.image = SFIcons.crown
+                } else {
+                    favoriteButton.image = Icons.star
+                }
+
+            case true:
+                if #available(iOS 13.0, *) {
+                    favoriteButton.image = SFIcons.crownFill
+                } else {
+                    favoriteButton.image = Icons.starFill
+                }
+        }
+    }
+
+    func didRemoveFavoritePost(_ post: Post) {
+        NotificationCenter.default.post(name: .didRemovePost, object: nil, userInfo: [NotificationKey.postKey : post])
+    }
+}
