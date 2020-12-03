@@ -9,6 +9,8 @@ import UIKit
 
 final class PostViewController: UIViewController {
 
+    // MARK: - Outlet
+
     @IBOutlet private var userName: UILabel!
     @IBOutlet private var avatarImage: UIImageView!
     @IBOutlet private var titlePost: UILabel!
@@ -19,23 +21,26 @@ final class PostViewController: UIViewController {
         }
     }
 
+    // MARK: - Private property
+
     private var favoriteButton: UIBarButtonItem!
     private var post: Post?
     private var postStorage = PostStorage.shared
+
+    // MARK: - Public property
+
     public var onAddedStorage: PostBlock?
-    
-    public var isFavorite: Bool = false
-//    public var indexPath: IndexPath?
+    public var isFavorite: Bool = true
     public var postViewModel: PostViewModel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewModel()
         setupUI()
-        addPostLocalStorage()
-//        print(indexPath)
     }
 }
+
+// MARK: - UICollectionViewDataSource
 
 extension PostViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -55,14 +60,9 @@ extension PostViewController: UICollectionViewDataSource {
     }
 }
 
-private extension PostViewController {
+// MARK: - Private Methods
 
-    func addPostLocalStorage() {
-//        onAddedStorage = { [weak self] post in
-//            guard let post = post else {return }
-//            self?.postStorage.localPosts.append(post)
-//        }
-    }
+private extension PostViewController {
 
     func setupViewModel() {
         postViewModel?.getPostForId(completionHandler: {
@@ -71,7 +71,6 @@ private extension PostViewController {
                 self.post = self.postViewModel?.post
                 self.titlePost.text = self.postViewModel?.title
                 self.bodyPost.text = self.postViewModel?.body
-//                self.indexPath = self.postViewModel?.indexPath
             }
         })
     }
@@ -106,7 +105,6 @@ private extension PostViewController {
             case true:
                 post.isFavorite = true
                 onAddedStorage?(post)
-//                didAddedFavoritePost(post)
                 favoriteButton.image = Icons.crownFill
         }
 
@@ -128,7 +126,6 @@ private extension PostViewController {
         setupFonts()
         setupNavigationBar()
         setupFavoriteButton()
-
     }
 
     func setupFavoriteButton() {
@@ -143,9 +140,4 @@ private extension PostViewController {
     func didRemoveFavoritePost(_ post: Post) {
         NotificationCenter.default.post(name: .didRemovePost, object: nil, userInfo: [NotificationKey.postKey : post])
     }
-
-//    func didAddedFavoritePost(_ post: Post) {
-//        print(post.title, indexPath)
-//        NotificationCenter.default.post(name: .didAddedPost, object: post, userInfo: ["IndexPath" : indexPath])
-//    }
 }

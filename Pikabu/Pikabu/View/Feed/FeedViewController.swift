@@ -103,6 +103,8 @@ extension FeedViewController: UITableViewDelegate {
 
         if let _ = selectedCells[indexPath] {
             postViewController.isFavorite = true
+        } else {
+            postViewController.isFavorite = false
         }
 
         navigationController?.pushViewController(postViewController, animated: true)
@@ -151,7 +153,6 @@ extension FeedViewController {
 
     func addObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(removeFavoritePost), name: .didRemovePost, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(addFavoritePost), name: .didAddedPost, object: nil)
     }
 
     @objc
@@ -166,26 +167,9 @@ extension FeedViewController {
         selectedCells.removeValue(forKey: indexPath.key)
         viewModel?.popPostDataLocalStorage(post)
 
-        DispatchQueue.main.async {
-            self.feedTableView.reloadData()
-        }
-    }
+        feedTableView.reloadData()
 
-//    @objc
-//    func addFavoritePost(_ notification: Notification) {
-//        guard let post = notification.object as? Post,
-//              let indexPath = notification.userInfo?["IndexPath"] as? IndexPath
-////              let indexPath = selectedCells.first(where: { $0.value == post})
-//        else {
-//            return
-//        }
-//        print(indexPath)
-//        self.selectedCells.updateValue(post, forKey: indexPath)
-////        viewModel?.pushPostDataLocalStorage(post)
-//        DispatchQueue.main.async {
-//            self.feedTableView.reloadData()
-//        }
-//    }
+    }
 
     func checkIsConnectivity() {
         viewModel?.numberOfRows() == 0 ? (feedTableView.isHidden = true) : (feedTableView.isHidden = false)

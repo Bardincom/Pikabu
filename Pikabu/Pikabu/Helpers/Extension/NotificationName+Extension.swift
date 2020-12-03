@@ -10,6 +10,4 @@ import UIKit
 
 extension Notification.Name {
     static let didRemovePost = Notification.Name("didRemovePost")
-    static let didAddedPost = Notification.Name("didAddedPost")
-    static let test = Notification.Name("test")
 }
