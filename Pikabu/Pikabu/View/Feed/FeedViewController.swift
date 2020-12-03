@@ -179,7 +179,7 @@ extension FeedViewController {
                 : (self.feedTableView.isHidden = false)
         }
 
-        delay(10) {
+        delay(20) {
             Alert.showAlert(self, Text.alertMessage) { [weak self] in
                 self?.setupViewModel()
             }

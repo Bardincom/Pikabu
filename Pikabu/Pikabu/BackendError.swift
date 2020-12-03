@@ -10,13 +10,13 @@ import Foundation
 enum BackendError: Error, CustomStringConvertible {
     case badRequest // 400
     case notFound // 404
-    case offError // other error
+    case otherError // other error
 
     var description: String {
         switch self {
             case .notFound: return "Данные не найдены"
             case .badRequest: return "Неверный запрос"
-            case .offError: return "Проверьте интернет соединение"
+            case .otherError: return "Проверьте интернет соединение"
         }
     }
 }

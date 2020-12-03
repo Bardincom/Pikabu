@@ -29,7 +29,7 @@ class DataTaskService: DataTaskServiceProtocol {
             if let error = error {
                 self.didChangesForConnectivity()
                 print("Возникла ошибка: \(error.localizedDescription)")
-                completionHandler(.failure(.offError))
+                completionHandler(.failure(.otherError))
             }
 
             guard let httpResponse = self.checkResponse(response: response, completionHandler: completionHandler) else { return }
@@ -55,7 +55,7 @@ class DataTaskService: DataTaskServiceProtocol {
             switch httpResponse.statusCode {
                 case 400: backendError = .badRequest
                 case 404: backendError = .notFound
-                default: backendError = .offError
+                default: backendError = .otherError
             }
 
             completionHandler(.failure(backendError))
@@ -70,7 +70,7 @@ class DataTaskService: DataTaskServiceProtocol {
 
         guard let httpResponse = response as? HTTPURLResponse else {
 
-            let backendError = BackendError.offError
+            let backendError = BackendError.otherError
             completionHandler(.failure(backendError))
             return nil}
         return httpResponse

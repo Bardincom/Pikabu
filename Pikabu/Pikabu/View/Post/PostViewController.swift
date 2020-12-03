@@ -24,6 +24,7 @@ final class PostViewController: UIViewController {
     // MARK: - Private property
 
     private var favoriteButton: UIBarButtonItem!
+    private var backButton: UIBarButtonItem!
     private var post: Post?
     private var postStorage = PostStorage.shared
 
@@ -84,19 +85,35 @@ private extension PostViewController {
     }
 
     func setupNavigationBar() {
-        favoriteButton = UIBarButtonItem(image: Icons.crown,
-                                         style: .plain,
-                                         target: self,
-                                         action: #selector(pushFavoriteButton))
+        if #available(iOS 13.0, *) {
+            favoriteButton = UIBarButtonItem(image: SFIcons.crown,
+                                             style: .plain,
+                                             target: self,
+                                             action: #selector(pushFavoriteButton))
+        } else {
+            favoriteButton = UIBarButtonItem(image: Icons.star,
+                                             style: .plain,
+                                             target: self,
+                                             action: #selector(pushFavoriteButton))
+        }
 
-        let backButton = UIBarButtonItem(image: Icons.chevronLeft,
-                                         style: .plain,
-                                         target: self,
-                                         action: #selector(popViewController))
 
-        backButton.tintColor = Color.styleColor
+        if #available(iOS 13.0, *) {
+            backButton = UIBarButtonItem(image: SFIcons.chevronLeft,
+                                             style: .plain,
+                                             target: self,
+                                             action: #selector(popViewController))
+
+        } else {
+            backButton = UIBarButtonItem(image: Icons.chevronLeft,
+                                             style: .plain,
+                                             target: self,
+                                             action: #selector(popViewController))
+        }
+
+
         favoriteButton.tintColor = Color.styleColor
-
+        backButton.tintColor = Color.styleColor
         navigationItem.rightBarButtonItems = .some([favoriteButton])
         navigationItem.leftBarButtonItem = .some(backButton)
         setupNavigationBar(withTitle: Text.postTitle)
@@ -109,11 +126,19 @@ private extension PostViewController {
         switch isFavorite {
             case false:
                 didRemoveFavoritePost(post)
-                favoriteButton.image = Icons.crown
+                if #available(iOS 13.0, *) {
+                    favoriteButton.image = SFIcons.crown
+                } else {
+                    favoriteButton.image = Icons.star
+                }
             case true:
                 post.isFavorite = true
                 onAddedStorage?(post)
-                favoriteButton.image = Icons.crownFill
+                if #available(iOS 13.0, *) {
+                    favoriteButton.image = SFIcons.crownFill
+                } else {
+                    favoriteButton.image = Icons.starFill
+                }
         }
 
     }
@@ -139,9 +164,18 @@ private extension PostViewController {
     func setupFavoriteButton() {
         switch isFavorite {
             case false:
-                favoriteButton.image = Icons.crown
+                if #available(iOS 13.0, *) {
+                    favoriteButton.image = SFIcons.crown
+                } else {
+                    favoriteButton.image = Icons.star
+                }
+
             case true:
-                favoriteButton.image = Icons.crownFill
+                if #available(iOS 13.0, *) {
+                    favoriteButton.image = SFIcons.crownFill
+                } else {
+                    favoriteButton.image = Icons.starFill
+                }
         }
     }
 

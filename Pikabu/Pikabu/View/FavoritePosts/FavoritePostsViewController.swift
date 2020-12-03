@@ -83,6 +83,7 @@ extension FavoritePostsViewController: UITableViewDelegate {
         guard let postViewModel = viewModel.viewModelForSelectedRow() else { return }
         let postViewController = PostViewController()
         postViewController.postViewModel = postViewModel
+        postViewController.isFavorite = true
 
         var post = viewModel.cellViewModel(forIndexPath: indexPath)
         postViewController.onAddedStorage = { [weak self] _ in
@@ -91,13 +92,7 @@ extension FavoritePostsViewController: UITableViewDelegate {
             self?.favoriteModelView?.pushPostDataLocalStorage(post)
             self?.favoritePostsTableView.reloadData()
         }
-
-        if let _ = selectedCells[indexPath] {
-            postViewController.isFavorite = true
-        } else {
-            postViewController.isFavorite = false
-        }
-
+        
         navigationController?.pushViewController(postViewController, animated: true)
     }
 }

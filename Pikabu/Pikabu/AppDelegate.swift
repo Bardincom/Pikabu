@@ -24,12 +24,21 @@ private extension AppDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
 
         let feedViewController = FeedViewController()
-        feedViewController.tabBarItem.image = Icons.houseFill
+
+        if #available(iOS 13.0, *) {
+            feedViewController.tabBarItem.image = SFIcons.houseFill
+        } else {
+            feedViewController.tabBarItem.image = Icons.houseFill
+        }
         let feedNavigationController = UINavigationController(rootViewController: feedViewController)
 
 
         let favoritePostsViewController = FavoritePostsViewController()
-        favoritePostsViewController.tabBarItem.image = Icons.crownFill
+        if #available(iOS 13.0, *) {
+            favoritePostsViewController.tabBarItem.image = SFIcons.crownFill
+        } else {
+            favoritePostsViewController.tabBarItem.image = Icons.starFill
+        }
         let favoritePostsNavigationController = UINavigationController(rootViewController: favoritePostsViewController)
 
         let tabBarController = UITabBarController()
