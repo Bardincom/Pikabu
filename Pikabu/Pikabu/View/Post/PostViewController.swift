@@ -60,6 +60,14 @@ extension PostViewController: UICollectionViewDataSource {
     }
 }
 
+extension PostViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let collectionCellWidth: CGFloat = (view.frame.size.width)
+        let collectionCellHeight: CGFloat = (view.frame.size.height / 2)
+            return CGSize(width: collectionCellWidth, height: collectionCellHeight)
+        }
+}
+
 // MARK: - Private Methods
 
 private extension PostViewController {

@@ -14,5 +14,4 @@ class PostImageCollectionViewCell: UICollectionViewCell {
     func setupImages(_ image: String) {
         imagePost.kf.setImage(with: URL(string: image))
     }
-
 }
