@@ -27,6 +27,7 @@ class DataTaskService: DataTaskServiceProtocol {
         let dataTask = session.dataTask(with: request) { [weak self] (data, response, error) in
             guard let self = self else { return }
             if let error = error {
+                self.didChangesForConnectivity()
                 print("Возникла ошибка: \(error.localizedDescription)")
                 completionHandler(.failure(.offError))
             }
@@ -73,6 +74,10 @@ class DataTaskService: DataTaskServiceProtocol {
             completionHandler(.failure(backendError))
             return nil}
         return httpResponse
+    }
+
+    private func didChangesForConnectivity() {
+        NotificationCenter.default.post(name: .didChangesForConnectivity, object: nil)
     }
 }
 

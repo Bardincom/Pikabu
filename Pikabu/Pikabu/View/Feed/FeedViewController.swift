@@ -121,8 +121,8 @@ extension FeedViewController {
         viewModel = FeedViewModel()
         viewModel?.fetchAllPosts { [weak self] in
             DispatchQueue.main.async {
-                self?.checkIsConnectivity()
                 self?.feedTableView.reloadData()
+                self?.feedTableView.isHidden = false
             }
         }
     }
@@ -153,6 +153,7 @@ extension FeedViewController {
 
     func addObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(removeFavoritePost), name: .didRemovePost, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(changesForConnectivity), name: .didChangesForConnectivity, object: nil)
     }
 
     @objc
@@ -168,10 +169,27 @@ extension FeedViewController {
         viewModel?.popPostDataLocalStorage(post)
 
         feedTableView.reloadData()
+    }
+
+    @objc
+    func changesForConnectivity() {
+        DispatchQueue.main.async {
+            self.viewModel?.numberOfRows() == 0
+                ? (self.feedTableView.isHidden = true)
+                : (self.feedTableView.isHidden = false)
+        }
+
+        delay(10) {
+            Alert.showAlert(self, Text.alertMessage) { [weak self] in
+                self?.setupViewModel()
+            }
+        }
 
     }
 
-    func checkIsConnectivity() {
-        viewModel?.numberOfRows() == 0 ? (feedTableView.isHidden = true) : (feedTableView.isHidden = false)
+    func delay(_ delay: Int, completion: @escaping () -> ()) {
+      DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(delay)) {
+        completion()
+      }
     }
 }
